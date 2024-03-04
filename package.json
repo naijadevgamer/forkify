@@ -2,11 +2,15 @@
   "name": "forkify",
   "version": "1.0.0",
   "description": "",
-  "main": "index.html",
+  "main": "index.js",
   "scripts": {
     "start": "parcel index.html",
     "build": "parcel build index.html"
   },
   "author": "Abdullah Alaba",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.12.0",
+    "parcel": "^2.12.0"
+  }
 }
