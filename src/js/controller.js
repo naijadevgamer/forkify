@@ -14,11 +14,20 @@ const timeout = function (s) {
 // https://forkify-api.herokuapp.com/v2
 
 ///////////////////////////////////////
+const renderSpinner = function (parentEl) {
+  const markup = `<div class="spinner">
+          <svg>
+            <use href="${icons}.svg#icon-loader"></use>
+          </svg>
+        </div>`;
+  parentEl.innerHTML = '';
+  parentEl.insertAdjacentHTML('afterbegin', markup);
+};
 
 const showRecipe = async function () {
   try {
     // Loading Recipe
-
+    renderSpinner(recipeContainer);
     const res = await fetch(
       'https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886'
       // 'https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604691c37cdc054bd0d4'
