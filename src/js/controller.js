@@ -45,7 +45,8 @@ const controlRecipes = async function () {
 
 // fractionConverter('1.5');
 
-// Events
-['load', 'hashchange'].forEach(ev =>
-  window.addEventListener(ev, controlRecipes)
-);
+const init = function () {
+  recipeView.addHandlerRender(controlRecipes);
+};
+
+init();
