@@ -5,7 +5,8 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
 // https://forkify-api.herokuapp.com/v2
-
+const searchField = document.querySelector('.search__field');
+const searchButton = document.querySelector('.search__btn');
 ///////////////////////////////////////
 
 const controlRecipes = async function () {
@@ -27,12 +28,23 @@ const controlRecipes = async function () {
 
 const controlSearchResults = async function () {
   try {
-    // 1) Loading Search result
-    await model.loadSearchResults('pizza');
+    const searchValue = searchField.value;
+
+    if (!searchValue) throw new Error('Search field is empty 🤦‍♂️');
+    recipeView.renderSearchSpinner();
+
+    // 1) Loading search result
+    await model.loadSearchResults(searchValue);
+
+    // 2) Rendering search result
+    recipeView.renderSearch(model.state.search.results);
   } catch (err) {
-    recipeView.renderError(err.message);
+    recipeView.renderSearchError(err.message);
   }
 };
+
+searchButton.addEventListener('click', controlSearchResults);
+// controlSearchResults();
 
 // const fractionConverter = function (deci) {
 //   const splet = deci.split('.');

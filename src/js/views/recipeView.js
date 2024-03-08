@@ -24,7 +24,8 @@ class RecipeView {
   }
 
   #clear() {
-    this.#parentElement.innerHTML = '';
+    // this.#parentElement.innerHTML = '';
+    this.#searchResultsElement.innerHTML = '';
   }
 
   renderSpinner() {
@@ -36,6 +37,17 @@ class RecipeView {
     </div>`;
     this.#clear();
     this.#parentElement.insertAdjacentHTML('afterbegin', markup);
+  }
+
+  renderSearchSpinner() {
+    const markup = `
+    <div class="spinner">
+      <svg>
+        <use href="${icons}.svg#icon-loader"></use>
+      </svg>
+    </div>`;
+    this.#clear();
+    this.#searchResultsElement.insertAdjacentHTML('afterbegin', markup);
   }
 
   renderError(message = this.#errorMessage) {
@@ -51,6 +63,20 @@ class RecipeView {
     `;
     this.#clear();
     this.#parentElement.insertAdjacentHTML('afterbegin', markup);
+  }
+  renderSearchError(message = this.#errorMessage) {
+    const markup = `
+      <div class="error">
+        <div>
+          <svg>
+            <use href="${icons}#icon-alert-triangle"></use>
+          </svg>
+        </div>
+        <p>${message}</p>
+      </div>
+    `;
+    this.#clear();
+    this.#searchResultsElement.insertAdjacentHTML('afterbegin', markup);
   }
 
   renderSuccess(message = this.#message) {
@@ -186,7 +212,7 @@ class RecipeView {
               <img src="${data.image}" alt="Test" />
             </figure>
             <div class="preview__data">
-              <h4 class="preview__title">${data.publisher} ...</h4>
+              <h4 class="preview__title">${data.title} ...</h4>
               <p class="preview__publisher">${data.publisher}</p>
               <div class="preview__user-generated">
                 <svg>

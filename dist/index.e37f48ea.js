@@ -591,6 +591,8 @@ var _recipeView = require("./views/recipeView");
 var _recipeViewDefault = parcelHelpers.interopDefault(_recipeView);
 var _runtime = require("regenerator-runtime/runtime");
 // https://forkify-api.herokuapp.com/v2
+const searchField = document.querySelector(".search__field");
+const searchButton = document.querySelector(".search__btn");
 ///////////////////////////////////////
 const controlRecipes = async function() {
     try {
@@ -607,12 +609,19 @@ const controlRecipes = async function() {
 };
 const controlSearchResults = async function() {
     try {
-        // 1) Loading Search result
-        await _model.loadSearchResults("pizza");
+        const searchValue = searchField.value;
+        if (!searchValue) throw new Error("Search field is empty \uD83E\uDD26\u200D\u2642\uFE0F");
+        (0, _recipeViewDefault.default).renderSearchSpinner();
+        // 1) Loading search result
+        await _model.loadSearchResults(searchValue);
+        // 2) Rendering search result
+        (0, _recipeViewDefault.default).renderSearch(_model.state.search.results);
     } catch (err) {
-        (0, _recipeViewDefault.default).renderError(err.message);
+        (0, _recipeViewDefault.default).renderSearchError(err.message);
     }
 };
+searchButton.addEventListener("click", controlSearchResults);
+// controlSearchResults();
 // const fractionConverter = function (deci) {
 //   const splet = deci.split('.');
 //   const [whole, fraction] = splet;
@@ -2531,6 +2540,7 @@ const loadSearchResults = async function(query) {
         state.search.query = query;
         const data = await (0, _helpers.getJSON)(`${(0, _config.API_URL)}?search=${query}`);
         console.log(data);
+        if (!data.results) throw new Error("Could not find what you are looking for!\uD83E\uDD37\u200D\u2642\uFE0F Make sure to check if the spelling of the recipe you entered is correct \uD83D\uDE0A");
         state.search.results = data.data.recipes.map((rec)=>{
             return {
                 id: rec.id,
@@ -2605,7 +2615,8 @@ class RecipeView {
         this.#searchResultsElement.insertAdjacentHTML("afterbegin", markup);
     }
     #clear() {
-        this.#parentElement.innerHTML = "";
+        // this.#parentElement.innerHTML = '';
+        this.#searchResultsElement.innerHTML = "";
     }
     renderSpinner() {
         const markup = `
@@ -2616,6 +2627,16 @@ class RecipeView {
     </div>`;
         this.#clear();
         this.#parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
+    renderSearchSpinner() {
+        const markup = `
+    <div class="spinner">
+      <svg>
+        <use href="${(0, _iconsSvgDefault.default)}.svg#icon-loader"></use>
+      </svg>
+    </div>`;
+        this.#clear();
+        this.#searchResultsElement.insertAdjacentHTML("afterbegin", markup);
     }
     renderError(message = this.#errorMessage) {
         const markup = `
@@ -2630,6 +2651,20 @@ class RecipeView {
     `;
         this.#clear();
         this.#parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
+    renderSearchError(message = this.#errorMessage) {
+        const markup = `
+      <div class="error">
+        <div>
+          <svg>
+            <use href="${(0, _iconsSvgDefault.default)}#icon-alert-triangle"></use>
+          </svg>
+        </div>
+        <p>${message}</p>
+      </div>
+    `;
+        this.#clear();
+        this.#searchResultsElement.insertAdjacentHTML("afterbegin", markup);
     }
     renderSuccess(message = this.#message) {
         const markup = `
@@ -2761,7 +2796,7 @@ class RecipeView {
               <img src="${data.image}" alt="Test" />
             </figure>
             <div class="preview__data">
-              <h4 class="preview__title">${data.publisher} ...</h4>
+              <h4 class="preview__title">${data.title} ...</h4>
               <p class="preview__publisher">${data.publisher}</p>
               <div class="preview__user-generated">
                 <svg>
