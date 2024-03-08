@@ -25,6 +25,15 @@ const controlRecipes = async function () {
   }
 };
 
+const controlSearchResults = async function () {
+  try {
+    // 1) Loading Search result
+    await model.loadSearchResults('pizza');
+  } catch (err) {
+    recipeView.renderError(err.message);
+  }
+};
+
 // const fractionConverter = function (deci) {
 //   const splet = deci.split('.');
 //   const [whole, fraction] = splet;
