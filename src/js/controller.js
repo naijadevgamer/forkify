@@ -1,11 +1,12 @@
 import * as model from './model';
 import recipeView from './views/recipeView';
+import searchView from './views/searchView';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
 // https://forkify-api.herokuapp.com/v2
-const searchField = document.querySelector('.search__field');
+
 const searchButton = document.querySelector('.search__btn');
 ///////////////////////////////////////
 
@@ -28,13 +29,15 @@ const controlRecipes = async function () {
 
 const controlSearchResults = async function () {
   try {
-    const searchValue = searchField.value;
+    const query = searchView.getQuery();
 
-    if (!searchValue) throw new Error('Search field is empty 🤦‍♂️');
+    console.log(query);
+
     recipeView.renderSearchSpinner();
+    if (!query) throw new Error('Search field is empty 🤦‍♂️');
 
     // 1) Loading search result
-    await model.loadSearchResults(searchValue);
+    await model.loadSearchResults(query);
 
     // 2) Rendering search result
     recipeView.renderSearch(model.state.search.results);
@@ -42,9 +45,6 @@ const controlSearchResults = async function () {
     recipeView.renderSearchError(err.message);
   }
 };
-
-searchButton.addEventListener('click', controlSearchResults);
-// controlSearchResults();
 
 // const fractionConverter = function (deci) {
 //   const splet = deci.split('.');
@@ -68,6 +68,7 @@ searchButton.addEventListener('click', controlSearchResults);
 
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
+  searchView.addHandlerSubmit(controlSearchResults);
 };
 
 init();

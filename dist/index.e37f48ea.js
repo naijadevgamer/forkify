@@ -589,9 +589,10 @@ var _webImmediateJs = require("core-js/modules/web.immediate.js");
 var _model = require("./model");
 var _recipeView = require("./views/recipeView");
 var _recipeViewDefault = parcelHelpers.interopDefault(_recipeView);
+var _searchView = require("./views/searchView");
+var _searchViewDefault = parcelHelpers.interopDefault(_searchView);
 var _runtime = require("regenerator-runtime/runtime");
 // https://forkify-api.herokuapp.com/v2
-const searchField = document.querySelector(".search__field");
 const searchButton = document.querySelector(".search__btn");
 ///////////////////////////////////////
 const controlRecipes = async function() {
@@ -609,19 +610,18 @@ const controlRecipes = async function() {
 };
 const controlSearchResults = async function() {
     try {
-        const searchValue = searchField.value;
-        if (!searchValue) throw new Error("Search field is empty \uD83E\uDD26\u200D\u2642\uFE0F");
+        const query = (0, _searchViewDefault.default).getQuery();
+        console.log(query);
         (0, _recipeViewDefault.default).renderSearchSpinner();
+        if (!query) throw new Error("Search field is empty \uD83E\uDD26\u200D\u2642\uFE0F");
         // 1) Loading search result
-        await _model.loadSearchResults(searchValue);
+        await _model.loadSearchResults(query);
         // 2) Rendering search result
         (0, _recipeViewDefault.default).renderSearch(_model.state.search.results);
     } catch (err) {
         (0, _recipeViewDefault.default).renderSearchError(err.message);
     }
 };
-searchButton.addEventListener("click", controlSearchResults);
-// controlSearchResults();
 // const fractionConverter = function (deci) {
 //   const splet = deci.split('.');
 //   const [whole, fraction] = splet;
@@ -640,10 +640,11 @@ searchButton.addEventListener("click", controlSearchResults);
 // fractionConverter('1.5');
 const init = function() {
     (0, _recipeViewDefault.default).addHandlerRender(controlRecipes);
+    (0, _searchViewDefault.default).addHandlerSubmit(controlSearchResults);
 };
 init();
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","./model":"Y4A21","./views/recipeView":"l60JC"}],"gkKU3":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","./model":"Y4A21","./views/recipeView":"l60JC","./views/searchView":"9OQAM"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -3103,6 +3104,29 @@ Fraction.primeFactors = function(n) {
 };
 module.exports.Fraction = Fraction;
 
-},{}]},["hycaY","aenu9"], "aenu9", "parcelRequire3a11")
+},{}],"9OQAM":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+class SearchView {
+    #parentElement = document.querySelector(".search");
+    getQuery() {
+        const query = this.#parentElement.querySelector(".search__field").value;
+        this.#clearInput();
+        return query;
+    }
+    #clearInput() {
+        this.#parentElement.querySelector(".search__field").value = "";
+    }
+    // MVC: Publisher
+    addHandlerSubmit(handler) {
+        this.#parentElement.addEventListener("submit", function(e) {
+            e.preventDefault();
+            handler();
+        });
+    }
+}
+exports.default = new SearchView();
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["hycaY","aenu9"], "aenu9", "parcelRequire3a11")
 
 //# sourceMappingURL=index.e37f48ea.js.map
