@@ -2587,7 +2587,9 @@ var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 var _fractional = require("fractional");
 class RecipeView {
     #parentElement = document.querySelector(".recipe");
+    #searchResultsElement = document.querySelector(".results");
     #data;
+    #searchData;
     #errorMessage = "We could not find that recipe. Please try another one!";
     #message = "";
     render(data) {
@@ -2595,6 +2597,12 @@ class RecipeView {
         const markup = this.#generateMarkup();
         this.#clear();
         this.#parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
+    renderSearch(results) {
+        this.#searchData = results;
+        const markup = this.#generateSearchMarkup();
+        this.#clear();
+        this.#searchResultsElement.insertAdjacentHTML("afterbegin", markup);
     }
     #clear() {
         this.#parentElement.innerHTML = "";
@@ -2741,6 +2749,30 @@ class RecipeView {
         ${ing.description}
       </div>
     </li>`;
+    }
+    #generateSearchMarkup() {
+        return `
+    ${this.#searchData.map((data)=>`<li class="preview">
+          <a
+            class="preview__link preview__link--active"
+            href="#${data.id}"
+          >
+            <figure class="preview__fig">
+              <img src="${data.image}" alt="Test" />
+            </figure>
+            <div class="preview__data">
+              <h4 class="preview__title">${data.publisher} ...</h4>
+              <p class="preview__publisher">${data.publisher}</p>
+              <div class="preview__user-generated">
+                <svg>
+                  <use href="${0, _iconsSvgDefault.default}#icon-user"></use>
+                </svg>
+              </div>
+            </div>
+          </a>
+        </li>`).join("")}
+      
+    `;
     }
 }
 exports.default = new RecipeView();
