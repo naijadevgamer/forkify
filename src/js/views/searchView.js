@@ -10,6 +10,7 @@ class SearchView {
   #clearInput() {
     this.#parentElement.querySelector('.search__field').value = '';
   }
+
   // MVC: Publisher
   addHandlerSubmit(handler) {
     this.#parentElement.addEventListener('submit', function (e) {
