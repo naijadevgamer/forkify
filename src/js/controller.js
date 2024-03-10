@@ -1,14 +1,14 @@
 import * as model from './model';
 import recipeView from './views/recipeView';
 import searchView from './views/searchView';
+import resultsView from './views/resultsView';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
-// https://forkify-api.herokuapp.com/v2
-
-const searchButton = document.querySelector('.search__btn');
-///////////////////////////////////////
+if (module.hot) {
+  module.hot.accept();
+}
 
 const controlRecipes = async function () {
   try {
@@ -31,18 +31,16 @@ const controlSearchResults = async function () {
   try {
     const query = searchView.getQuery();
 
-    console.log(query);
-
-    recipeView.renderSearchSpinner();
+    resultsView.renderSpinner();
     if (!query) throw new Error('Search field is empty 🤦‍♂️');
 
     // 1) Loading search result
     await model.loadSearchResults(query);
 
     // 2) Rendering search result
-    recipeView.renderSearch(model.state.search.results);
+    resultsView.render(model.state.search.results);
   } catch (err) {
-    recipeView.renderSearchError(err.message);
+    resultsView.renderError(err.message);
   }
 };
 
