@@ -7,9 +7,9 @@ import paginationView from './views/paginationView';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
-if (module.hot) {
-  module.hot.accept();
-}
+// if (module.hot) {
+//   module.hot.accept();
+// }
 
 const controlRecipes = async function () {
   try {
@@ -30,18 +30,21 @@ const controlRecipes = async function () {
 
 const controlSearchResults = async function () {
   try {
+    // 1) Get search query
+    resultsView.renderSpinner();
     const query = searchView.getQuery();
 
-    resultsView.renderSpinner();
-
-    // 1) Loading search result
+    // 2) Load search result
     await model.loadSearchResults(query);
 
-    // 2) Rendering search result
+    // 3) Render search result
     // resultsView.render(model.state.search.results);
 
-    // 3) Rendering search result with pagination
-    resultsView.render(model.getSearchResultsPage());
+    // 3) Render search result with pagination
+    resultsView.render(model.getSearchResultsPage(3));
+
+    // 3) Render initial pagination buttons
+    paginationView.render(model.state.search);
   } catch (err) {
     resultsView.renderError(err.message);
   }
