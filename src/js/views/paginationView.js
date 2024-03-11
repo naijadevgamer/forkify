@@ -13,21 +13,47 @@ class PaginationView extends View {
 
     // Page 1, and there are other pages
     if (this._data.page === 1 && numPages > 1) {
-      return 'page 1 , others';
-    }
-
-    // Page 1, and there are no other pages
-    if (this._data.page === 1 && numPages === 1) {
-      return 'page 1 , no others';
+      return `
+        <button class="btn--inline pagination__btn--next">
+          <span>Page ${this._data.page + 1}</span>
+          <svg class="search__icon">
+            <use href="${icons}#icon-arrow-right"></use>
+          </svg>
+        </button>
+      `;
     }
 
     // Last page
     if (this._data.page === numPages && numPages > 1) {
-      return 'last page';
+      return `
+        <button class="btn--inline pagination__btn--prev">
+          <svg class="search__icon">
+            <use href="${icons}#icon-arrow-left"></use>
+          </svg>
+          <span>Page ${this._data.page - 1}</span>
+        </button>
+      `;
+    }
+    // Other page
+    if (this._data.page > 1 && this._data.page < numPages) {
+      return `
+        <button class="btn--inline pagination__btn--prev">
+          <svg class="search__icon">
+            <use href="${icons}#icon-arrow-left"></use>
+          </svg>
+          <span>Page ${this._data.page - 1}</span>
+        </button>
+        <button class="btn--inline pagination__btn--next">
+          <span>Page ${this._data.page + 1}</span>
+          <svg class="search__icon">
+            <use href="${icons}#icon-arrow-right"></use>
+          </svg>
+        </button>
+      `;
     }
 
-    // Other page
-    return 'other page';
+    // Page 1, and there are no other pages
+    return 'page 1 , no others';
   }
 }
 
