@@ -4,6 +4,7 @@ class SearchView {
   getQuery() {
     const query = this.#parentElement.querySelector('.search__field').value;
     this.#clearInput();
+    if (!query) throw new Error('Search field is empty 🤦‍♂️');
     return query;
   }
 

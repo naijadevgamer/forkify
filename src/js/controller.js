@@ -32,7 +32,6 @@ const controlSearchResults = async function () {
     const query = searchView.getQuery();
 
     resultsView.renderSpinner();
-    if (!query) throw new Error('Search field is empty 🤦‍♂️');
 
     // 1) Loading search result
     await model.loadSearchResults(query);

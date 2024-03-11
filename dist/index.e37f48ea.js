@@ -612,7 +612,6 @@ const controlSearchResults = async function() {
     try {
         const query = (0, _searchViewDefault.default).getQuery();
         (0, _resultsViewDefault.default).renderSpinner();
-        if (!query) throw new Error("Search field is empty \uD83E\uDD26\u200D\u2642\uFE0F");
         // 1) Loading search result
         await _model.loadSearchResults(query);
         // 2) Rendering search result
@@ -2540,7 +2539,6 @@ const loadSearchResults = async function(query) {
         state.search.query = query;
         const data = await (0, _helpers.getJSON)(`${(0, _config.API_URL)}?search=${query}`);
         console.log(data);
-        if (!data.results) throw new Error("Could not find what you are looking for!\uD83E\uDD37\u200D\u2642\uFE0F Make sure to check if the spelling of the recipe you entered is correct \uD83D\uDE0A");
         state.search.results = data.data.recipes.map((rec)=>{
             return {
                 id: rec.id,
@@ -3006,7 +3004,8 @@ var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 class View {
     _data;
     render(data) {
-        // if (!data) return this.renderError();
+        if (data.length === 0) return this.renderError();
+        console.log(data);
         this._data = data;
         const markup = this._generateMarkup();
         this._clear();
@@ -3064,6 +3063,7 @@ class SearchView {
     getQuery() {
         const query = this.#parentElement.querySelector(".search__field").value;
         this.#clearInput();
+        if (!query) throw new Error("Search field is empty \uD83E\uDD26\u200D\u2642\uFE0F");
         return query;
     }
     #clearInput() {
@@ -3089,7 +3089,7 @@ var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 class ResultView extends (0, _viewDefault.default) {
     _parentElement = document.querySelector(".results");
     _message = "";
-    _errorMessage = "No recipes found for your query! Please try again";
+    _errorMessage = "Could not find what you are looking for!\uD83E\uDD37\u200D\u2642\uFE0F Make sure to check if the spelling of the recipe you entered is correct \uD83D\uDE0A";
     _generateMarkup() {
         return `
     ${this._data.map((result)=>`<li class="preview">
