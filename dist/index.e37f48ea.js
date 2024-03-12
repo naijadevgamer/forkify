@@ -3158,7 +3158,7 @@ class PaginationView extends (0, _viewDefault.default) {
         if (currPage > 1 && currPage < numPages) return `${this._generateButtonMarkup("prev", currPage)}
       ${this._generateButtonMarkup("next", currPage)}`;
         // Page 1, and there are no other pages
-        return;
+        return "";
     }
     _generateButtonMarkup(pos, currPage) {
         const position = pos === "next" ? currPage + 1 : currPage - 1;

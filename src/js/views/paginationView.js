@@ -27,7 +27,7 @@ class PaginationView extends View {
     }
 
     // Page 1, and there are no other pages
-    return;
+    return '';
   }
 
   _generateButtonMarkup(pos, currPage) {
