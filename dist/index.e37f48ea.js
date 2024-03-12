@@ -622,12 +622,18 @@ const controlSearchResults = async function() {
         // 3) Render search result
         // resultsView.render(model.state.search.results);
         // 3) Render search result with pagination
-        (0, _resultsViewDefault.default).render(_model.getSearchResultsPage(3));
+        (0, _resultsViewDefault.default).render(_model.getSearchResultsPage());
         // 3) Render initial pagination buttons
         (0, _paginationViewDefault.default).render(_model.state.search);
     } catch (err) {
         (0, _resultsViewDefault.default).renderError(err.message);
     }
+};
+const controlPagination = function(goToPage) {
+    // 1) Render New results
+    (0, _resultsViewDefault.default).render(_model.getSearchResultsPage(goToPage));
+    //  2) Render NEW pagination buttons
+    (0, _paginationViewDefault.default).render(_model.state.search);
 };
 // const fractionConverter = function (deci) {
 //   const splet = deci.split('.');
@@ -648,6 +654,7 @@ const controlSearchResults = async function() {
 const init = function() {
     (0, _recipeViewDefault.default).addHandlerRender(controlRecipes);
     (0, _searchViewDefault.default).addHandlerSubmit(controlSearchResults);
+    (0, _paginationViewDefault.default).addHandlerClick(controlPagination);
 };
 init();
 
@@ -3142,42 +3149,44 @@ class PaginationView extends (0, _viewDefault.default) {
     _parentElement = document.querySelector(".pagination");
     _generateMarkup() {
         const numPages = Math.ceil(this._data.results.length / this._data.resultsPerPage);
-        console.log(numPages, this._data.page);
+        const currPage = this._data.page;
         // Page 1, and there are other pages
-        if (this._data.page === 1 && numPages > 1) return `
-        <button class="btn--inline pagination__btn--next">
-          <span>Page ${this._data.page + 1}</span>
-          <svg class="search__icon">
-            <use href="${0, _iconsSvgDefault.default}#icon-arrow-right"></use>
-          </svg>
-        </button>
-      `;
+        if (currPage === 1 && numPages > 1) return `${this._generateButtonMarkup("next", currPage)}`;
         // Last page
-        if (this._data.page === numPages && numPages > 1) return `
-        <button class="btn--inline pagination__btn--prev">
-          <svg class="search__icon">
-            <use href="${0, _iconsSvgDefault.default}#icon-arrow-left"></use>
-          </svg>
-          <span>Page ${this._data.page - 1}</span>
-        </button>
-      `;
-        // Other page
-        if (this._data.page > 1 && this._data.page < numPages) return `
-        <button class="btn--inline pagination__btn--prev">
-          <svg class="search__icon">
-            <use href="${0, _iconsSvgDefault.default}#icon-arrow-left"></use>
-          </svg>
-          <span>Page ${this._data.page - 1}</span>
-        </button>
-        <button class="btn--inline pagination__btn--next">
-          <span>Page ${this._data.page + 1}</span>
-          <svg class="search__icon">
-            <use href="${0, _iconsSvgDefault.default}#icon-arrow-right"></use>
-          </svg>
-        </button>
-      `;
+        if (currPage === numPages && numPages > 1) return `${this._generateButtonMarkup("prev", currPage)}`;
+        // Other pages
+        if (currPage > 1 && currPage < numPages) return `${this._generateButtonMarkup("prev", currPage)}
+      ${this._generateButtonMarkup("next", currPage)}`;
         // Page 1, and there are no other pages
-        return "page 1 , no others";
+        return;
+    }
+    _generateButtonMarkup(pos, currPage) {
+        const position = pos === "next" ? currPage + 1 : currPage - 1;
+        return `
+      <button
+        data-goto="${position}"
+        class="btn--inline pagination__btn--${pos}"
+      >
+        ${pos === "next" ? `<span>Page ${position}</span>
+              <svg class="search__icon">
+                <use
+                  href="${0, _iconsSvgDefault.default}#icon-arrow-${pos === "next" ? "right" : "left"}"
+                ></use>
+              </svg>` : `<svg class="search__icon">
+                <use
+                  href="${0, _iconsSvgDefault.default}#icon-arrow-${pos === "next" ? "right" : "left"}"
+                ></use>
+              </svg>
+              <span>Page ${position}</span>`}
+      </button>
+    `;
+    }
+    addHandlerClick(handler) {
+        this._parentElement.addEventListener("click", function(e) {
+            const btn = e.target.closest(".btn--inline");
+            if (!btn) return;
+            return handler(+btn.dataset.goto);
+        });
     }
 }
 exports.default = new PaginationView();

@@ -8,52 +8,64 @@ class PaginationView extends View {
     const numPages = Math.ceil(
       this._data.results.length / this._data.resultsPerPage
     );
-
-    console.log(numPages, this._data.page);
+    const currPage = this._data.page;
 
     // Page 1, and there are other pages
-    if (this._data.page === 1 && numPages > 1) {
-      return `
-        <button class="btn--inline pagination__btn--next">
-          <span>Page ${this._data.page + 1}</span>
-          <svg class="search__icon">
-            <use href="${icons}#icon-arrow-right"></use>
-          </svg>
-        </button>
-      `;
+    if (currPage === 1 && numPages > 1) {
+      return `${this._generateButtonMarkup('next', currPage)}`;
     }
 
     // Last page
-    if (this._data.page === numPages && numPages > 1) {
-      return `
-        <button class="btn--inline pagination__btn--prev">
-          <svg class="search__icon">
-            <use href="${icons}#icon-arrow-left"></use>
-          </svg>
-          <span>Page ${this._data.page - 1}</span>
-        </button>
-      `;
+    if (currPage === numPages && numPages > 1) {
+      return `${this._generateButtonMarkup('prev', currPage)}`;
     }
-    // Other page
-    if (this._data.page > 1 && this._data.page < numPages) {
-      return `
-        <button class="btn--inline pagination__btn--prev">
-          <svg class="search__icon">
-            <use href="${icons}#icon-arrow-left"></use>
-          </svg>
-          <span>Page ${this._data.page - 1}</span>
-        </button>
-        <button class="btn--inline pagination__btn--next">
-          <span>Page ${this._data.page + 1}</span>
-          <svg class="search__icon">
-            <use href="${icons}#icon-arrow-right"></use>
-          </svg>
-        </button>
-      `;
+
+    // Other pages
+    if (currPage > 1 && currPage < numPages) {
+      return `${this._generateButtonMarkup('prev', currPage)}
+      ${this._generateButtonMarkup('next', currPage)}`;
     }
 
     // Page 1, and there are no other pages
-    return 'page 1 , no others';
+    return;
+  }
+
+  _generateButtonMarkup(pos, currPage) {
+    const position = pos === 'next' ? currPage + 1 : currPage - 1;
+    return `
+      <button
+        data-goto="${position}"
+        class="btn--inline pagination__btn--${pos}"
+      >
+        ${
+          pos === 'next'
+            ? `<span>Page ${position}</span>
+              <svg class="search__icon">
+                <use
+                  href="${icons}#icon-arrow-${
+                pos === 'next' ? 'right' : 'left'
+              }"
+                ></use>
+              </svg>`
+            : `<svg class="search__icon">
+                <use
+                  href="${icons}#icon-arrow-${
+                pos === 'next' ? 'right' : 'left'
+              }"
+                ></use>
+              </svg>
+              <span>Page ${position}</span>`
+        }
+      </button>
+    `;
+  }
+
+  addHandlerClick(handler) {
+    this._parentElement.addEventListener('click', function (e) {
+      const btn = e.target.closest('.btn--inline');
+      if (!btn) return;
+      return handler(+btn.dataset.goto);
+    });
   }
 }
 

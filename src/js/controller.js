@@ -41,13 +41,21 @@ const controlSearchResults = async function () {
     // resultsView.render(model.state.search.results);
 
     // 3) Render search result with pagination
-    resultsView.render(model.getSearchResultsPage(3));
+    resultsView.render(model.getSearchResultsPage());
 
     // 3) Render initial pagination buttons
     paginationView.render(model.state.search);
   } catch (err) {
     resultsView.renderError(err.message);
   }
+};
+
+const controlPagination = function (goToPage) {
+  // 1) Render New results
+  resultsView.render(model.getSearchResultsPage(goToPage));
+
+  //  2) Render NEW pagination buttons
+  paginationView.render(model.state.search);
 };
 
 // const fractionConverter = function (deci) {
@@ -73,6 +81,7 @@ const controlSearchResults = async function () {
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
   searchView.addHandlerSubmit(controlSearchResults);
+  paginationView.addHandlerClick(controlPagination);
 };
 
 init();
