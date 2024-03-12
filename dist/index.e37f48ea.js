@@ -608,6 +608,7 @@ const controlRecipes = async function() {
         await _model.loadRecipe(id);
         // 2) Rendering recipes
         (0, _recipeViewDefault.default).render(_model.state.recipe);
+    // controlServings(4);
     } catch (err) {
         (0, _recipeViewDefault.default).renderError(err.message);
     }
@@ -619,8 +620,6 @@ const controlSearchResults = async function() {
         const query = (0, _searchViewDefault.default).getQuery();
         // 2) Load search result
         await _model.loadSearchResults(query);
-        // 3) Render search result
-        // resultsView.render(model.state.search.results);
         // 3) Render search result with pagination
         (0, _resultsViewDefault.default).render(_model.getSearchResultsPage());
         // 3) Render initial pagination buttons
@@ -634,6 +633,12 @@ const controlPagination = function(goToPage) {
     (0, _resultsViewDefault.default).render(_model.getSearchResultsPage(goToPage));
     //  2) Render NEW pagination buttons
     (0, _paginationViewDefault.default).render(_model.state.search);
+};
+const controlServings = function(newServings) {
+    // 1) Update the recipe servings (in state)
+    _model.updateServings(newServings);
+    // 2) Render recipe view
+    (0, _recipeViewDefault.default).render(_model.state.recipe);
 };
 // const fractionConverter = function (deci) {
 //   const splet = deci.split('.');
@@ -653,6 +658,7 @@ const controlPagination = function(goToPage) {
 // fractionConverter('1.5');
 const init = function() {
     (0, _recipeViewDefault.default).addHandlerRender(controlRecipes);
+    (0, _recipeViewDefault.default).addHandlerUpdateServings(controlServings);
     (0, _searchViewDefault.default).addHandlerSubmit(controlSearchResults);
     (0, _paginationViewDefault.default).addHandlerClick(controlPagination);
 };
@@ -2513,6 +2519,7 @@ parcelHelpers.export(exports, "state", ()=>state);
 parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
 parcelHelpers.export(exports, "loadSearchResults", ()=>loadSearchResults);
 parcelHelpers.export(exports, "getSearchResultsPage", ()=>getSearchResultsPage);
+parcelHelpers.export(exports, "updateServings", ()=>updateServings);
 var _config = require("./config");
 var _helpers = require("./helpers");
 const state = {
@@ -2577,6 +2584,12 @@ const getSearchResultsPage = function(page = state.search.page) {
     const end = page * state.search.resultsPerPage; // 9
     return state.search.results.slice(start, end);
 };
+const updateServings = function(newServings) {
+    state.recipe.ingredients.forEach((ing)=>{
+        ing.quantity = ing.quantity * newServings / state.recipe.servings;
+    });
+    state.recipe.servings = newServings;
+};
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config":"k5Hzs","./helpers":"hGI1E"}],"k5Hzs":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -2633,6 +2646,14 @@ class RecipeView extends (0, _viewDefault.default) {
             "hashchange"
         ].forEach((ev)=>window.addEventListener(ev, handler));
     }
+    addHandlerUpdateServings(handler) {
+        this._parentElement.addEventListener("click", function(e) {
+            const btn = e.target.closest(".btn--update-servings");
+            if (!btn) return;
+            const { updateTo } = btn.dataset;
+            +updateTo > 0 && handler(+updateTo);
+        });
+    }
     _generateMarkup() {
         return ` <figure class="recipe__fig">
         <img
@@ -2665,12 +2686,12 @@ class RecipeView extends (0, _viewDefault.default) {
           <span class="recipe__info-text">servings</span>
 
           <div class="recipe__info-buttons">
-            <button class="btn--tiny btn--increase-servings">
+            <button class="btn--tiny btn--update-servings" data-update-to="${this._data.servings - 1}">
               <svg>
                 <use href="${0, _iconsSvgDefault.default}#icon-minus-circle"></use>
               </svg>
             </button>
-            <button class="btn--tiny btn--increase-servings">
+            <button class="btn--tiny btn--update-servings"  data-update-to="${this._data.servings + 1}">
               <svg>
                 <use href="${0, _iconsSvgDefault.default}#icon-plus-circle"></use>
               </svg>

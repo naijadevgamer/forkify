@@ -23,6 +23,8 @@ const controlRecipes = async function () {
 
     // 2) Rendering recipes
     recipeView.render(model.state.recipe);
+
+    // controlServings(4);
   } catch (err) {
     recipeView.renderError(err.message);
   }
@@ -36,9 +38,6 @@ const controlSearchResults = async function () {
 
     // 2) Load search result
     await model.loadSearchResults(query);
-
-    // 3) Render search result
-    // resultsView.render(model.state.search.results);
 
     // 3) Render search result with pagination
     resultsView.render(model.getSearchResultsPage());
@@ -56,6 +55,14 @@ const controlPagination = function (goToPage) {
 
   //  2) Render NEW pagination buttons
   paginationView.render(model.state.search);
+};
+
+const controlServings = function (newServings) {
+  // 1) Update the recipe servings (in state)
+  model.updateServings(newServings);
+
+  // 2) Render recipe view
+  recipeView.render(model.state.recipe);
 };
 
 // const fractionConverter = function (deci) {
@@ -80,6 +87,7 @@ const controlPagination = function (goToPage) {
 
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
+  recipeView.addHandlerUpdateServings(controlServings);
   searchView.addHandlerSubmit(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
 };
