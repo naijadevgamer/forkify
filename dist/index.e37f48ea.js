@@ -2536,6 +2536,7 @@ parcelHelpers.export(exports, "loadSearchResults", ()=>loadSearchResults);
 parcelHelpers.export(exports, "getSearchResultsPage", ()=>getSearchResultsPage);
 parcelHelpers.export(exports, "updateServings", ()=>updateServings);
 parcelHelpers.export(exports, "addBookmark", ()=>addBookmark);
+parcelHelpers.export(exports, "removeBookmark", ()=>removeBookmark);
 var _config = require("./config");
 var _helpers = require("./helpers");
 const state = {
@@ -2551,16 +2552,16 @@ const state = {
 const loadRecipe = async function(id) {
     try {
         const data = await (0, _helpers.getJSON)(`${(0, _config.API_URL)}${id}`);
-        let { recipe } = data.data;
+        let { recipe: recipe1 } = data.data;
         state.recipe = {
-            id: recipe.id,
-            title: recipe.title,
-            publisher: recipe.publisher,
-            sourceUrl: recipe.source_url,
-            image: recipe.image_url,
-            servings: recipe.servings,
-            cookingTime: recipe.cooking_time,
-            ingredients: recipe.ingredients
+            id: recipe1.id,
+            title: recipe1.title,
+            publisher: recipe1.publisher,
+            sourceUrl: recipe1.source_url,
+            image: recipe1.image_url,
+            servings: recipe1.servings,
+            cookingTime: recipe1.cooking_time,
+            ingredients: recipe1.ingredients
         };
         if (state.bookmarks.some((bookmark)=>bookmark.id === id)) state.recipe.bookmarked = !state.recipe.bookmarked;
         console.log(state.recipe);
@@ -2609,27 +2610,28 @@ const updateServings = function(newServings) {
     });
     state.recipe.servings = newServings;
 };
-const addBookmark = function(recipe) {
-    if (recipe.bookmarked === undefined || !recipe.bookmarked) {
+const addBookmark = function(recipe1) {
+    if (recipe1.bookmarked === undefined || !recipe1.bookmarked) {
         // Add bookmark
-        state.bookmarks.push(recipe);
-        // Mark current recipe as bookmark
-        if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
+        state.bookmarks.push(recipe1);
+        // Mark current recipe as bookmarked
+        if (recipe1.id === state.recipe.id) state.recipe.bookmarked = true;
         console.log(state.bookmarks);
     } else {
         // Remove bookmark
-        state.bookmarks = state.bookmarks.filter((rec)=>rec.id !== recipe.id);
-        // Unmark current recipe as bookmark
-        if (recipe.id === state.recipe.id) state.recipe.bookmarked = false;
+        state.bookmarks = state.bookmarks.filter((rec)=>rec.id !== recipe1.id);
+        // Unmark current recipe as bookmarked
+        if (recipe1.id === state.recipe.id) state.recipe.bookmarked = false;
         console.log(state.bookmarks);
     }
-}; // export const removeBookmark = function (recipe) {
- //   if (!recipe.bookmarked) return;
- //   // Remove bookmark
- //   state.bookmarks.pop(recipe);
- //   // Unmark current recipe as bookmark
- //   if (recipe.id === state.recipe.id) state.recipe.bookmarked = false;
- // };
+};
+const removeBookmark = function(id) {
+    const index = state.bookmarks.findIndex((el)=>el.id === id);
+    // Remove bookmark
+    state.bookmarks.splice(index, 1);
+    // Unmark current recipe as bookmarked
+    if (recipe.id === state.recipe.id) state.recipe.bookmarked = false;
+};
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config":"k5Hzs","./helpers":"hGI1E"}],"k5Hzs":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");

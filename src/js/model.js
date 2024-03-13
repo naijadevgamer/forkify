@@ -86,24 +86,24 @@ export const addBookmark = function (recipe) {
   if (recipe.bookmarked === undefined || !recipe.bookmarked) {
     // Add bookmark
     state.bookmarks.push(recipe);
-    // Mark current recipe as bookmark
+    // Mark current recipe as bookmarked
     if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
     console.log(state.bookmarks);
   } else {
     // Remove bookmark
     state.bookmarks = state.bookmarks.filter(rec => rec.id !== recipe.id);
 
-    // Unmark current recipe as bookmark
+    // Unmark current recipe as bookmarked
     if (recipe.id === state.recipe.id) state.recipe.bookmarked = false;
     console.log(state.bookmarks);
   }
 };
 
-// export const removeBookmark = function (recipe) {
-//   if (!recipe.bookmarked) return;
-//   // Remove bookmark
-//   state.bookmarks.pop(recipe);
+export const removeBookmark = function (id) {
+  const index = state.bookmarks.findIndex(el => el.id === id);
+  // Remove bookmark
+  state.bookmarks.splice(index, 1);
 
-//   // Unmark current recipe as bookmark
-//   if (recipe.id === state.recipe.id) state.recipe.bookmarked = false;
-// };
+  // Unmark current recipe as bookmarked
+  if (recipe.id === state.recipe.id) state.recipe.bookmarked = false;
+};
