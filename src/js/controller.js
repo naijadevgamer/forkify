@@ -7,9 +7,9 @@ import paginationView from './views/paginationView';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
-// if (module.hot) {
-//   module.hot.accept();
-// }
+if (module.hot) {
+  module.hot.accept();
+}
 
 const controlRecipes = async function () {
   try {
@@ -62,7 +62,8 @@ const controlServings = function (newServings) {
   model.updateServings(newServings);
 
   // 2) Render recipe view
-  recipeView.render(model.state.recipe);
+  // recipeView.render(model.state.recipe);
+  recipeView.update(model.state.recipe);
 };
 
 // const fractionConverter = function (deci) {
