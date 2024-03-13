@@ -648,11 +648,11 @@ const controlAddBookmark = function() {
     (0, _recipeViewDefault.default).update(_model.state.recipe);
     console.log(_model.state.recipe);
 };
-const controlRemoveBookmark = function() {
-    _model.removeBookmark(_model.state.recipe);
-    (0, _recipeViewDefault.default).update(_model.state.recipe);
-    console.log(_model.state.recipe);
-};
+// const controlRemoveBookmark = function () {
+//   model.removeBookmark(model.state.recipe);
+//   recipeView.update(model.state.recipe);
+//   // console.log(model.state.recipe);
+// };
 // const fractionConverter = function (deci) {
 //   const splet = deci.split('.');
 //   const [whole, fraction] = splet;
@@ -675,7 +675,7 @@ const init = function() {
     (0, _searchViewDefault.default).addHandlerSubmit(controlSearchResults);
     (0, _paginationViewDefault.default).addHandlerClick(controlPagination);
     (0, _recipeViewDefault.default).addHandlerAddBookmark(controlAddBookmark);
-// recipeView.addHandlerRemoveBookmark(controlAddBookmark);
+// recipeView.addHandlerAddBookmark(controlRemoveBookmark);
 };
 init();
 
@@ -2536,7 +2536,6 @@ parcelHelpers.export(exports, "loadSearchResults", ()=>loadSearchResults);
 parcelHelpers.export(exports, "getSearchResultsPage", ()=>getSearchResultsPage);
 parcelHelpers.export(exports, "updateServings", ()=>updateServings);
 parcelHelpers.export(exports, "addBookmark", ()=>addBookmark);
-parcelHelpers.export(exports, "removeBookmark", ()=>removeBookmark);
 var _config = require("./config");
 var _helpers = require("./helpers");
 const state = {
@@ -2611,17 +2610,26 @@ const updateServings = function(newServings) {
     state.recipe.servings = newServings;
 };
 const addBookmark = function(recipe) {
-    // Add bookmark
-    state.bookmarks.push(recipe);
-    // Mark current recipe as bookmark
-    if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
-};
-const removeBookmark = function(recipe) {
-    // Remove bookmark
-    state.bookmarks.pop(recipe);
-    // Unmark current recipe as bookmark
-    if (recipe.id === state.recipe.id) state.recipe.bookmarked = false;
-};
+    if (recipe.bookmarked === undefined || !recipe.bookmarked) {
+        // Add bookmark
+        state.bookmarks.push(recipe);
+        // Mark current recipe as bookmark
+        if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
+        console.log(state.bookmarks);
+    } else {
+        // Remove bookmark
+        state.bookmarks = state.bookmarks.filter((rec)=>rec.id !== recipe.id);
+        // Unmark current recipe as bookmark
+        if (recipe.id === state.recipe.id) state.recipe.bookmarked = false;
+        console.log(state.bookmarks);
+    }
+}; // export const removeBookmark = function (recipe) {
+ //   if (!recipe.bookmarked) return;
+ //   // Remove bookmark
+ //   state.bookmarks.pop(recipe);
+ //   // Unmark current recipe as bookmark
+ //   if (recipe.id === state.recipe.id) state.recipe.bookmarked = false;
+ // };
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config":"k5Hzs","./helpers":"hGI1E"}],"k5Hzs":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");

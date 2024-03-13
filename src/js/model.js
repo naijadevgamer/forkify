@@ -83,15 +83,27 @@ export const updateServings = function (newServings) {
 };
 
 export const addBookmark = function (recipe) {
-  // Add bookmark
-  state.bookmarks.push(recipe);
-  // Mark current recipe as bookmark
-  if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
+  if (recipe.bookmarked === undefined || !recipe.bookmarked) {
+    // Add bookmark
+    state.bookmarks.push(recipe);
+    // Mark current recipe as bookmark
+    if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
+    console.log(state.bookmarks);
+  } else {
+    // Remove bookmark
+    state.bookmarks = state.bookmarks.filter(rec => rec.id !== recipe.id);
+
+    // Unmark current recipe as bookmark
+    if (recipe.id === state.recipe.id) state.recipe.bookmarked = false;
+    console.log(state.bookmarks);
+  }
 };
 
-export const removeBookmark = function (recipe) {
-  // Remove bookmark
-  state.bookmarks.pop(recipe);
-  // Unmark current recipe as bookmark
-  if (recipe.id === state.recipe.id) state.recipe.bookmarked = false;
-};
+// export const removeBookmark = function (recipe) {
+//   if (!recipe.bookmarked) return;
+//   // Remove bookmark
+//   state.bookmarks.pop(recipe);
+
+//   // Unmark current recipe as bookmark
+//   if (recipe.id === state.recipe.id) state.recipe.bookmarked = false;
+// };
