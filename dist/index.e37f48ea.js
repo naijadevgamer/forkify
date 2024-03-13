@@ -643,6 +643,16 @@ const controlServings = function(newServings) {
     // recipeView.render(model.state.recipe);
     (0, _recipeViewDefault.default).update(_model.state.recipe);
 };
+const controlAddBookmark = function() {
+    _model.addBookmark(_model.state.recipe);
+    (0, _recipeViewDefault.default).update(_model.state.recipe);
+    console.log(_model.state.recipe);
+};
+const controlRemoveBookmark = function() {
+    _model.removeBookmark(_model.state.recipe);
+    (0, _recipeViewDefault.default).update(_model.state.recipe);
+    console.log(_model.state.recipe);
+};
 // const fractionConverter = function (deci) {
 //   const splet = deci.split('.');
 //   const [whole, fraction] = splet;
@@ -664,7 +674,8 @@ const init = function() {
     (0, _recipeViewDefault.default).addHandlerUpdateServings(controlServings);
     (0, _searchViewDefault.default).addHandlerSubmit(controlSearchResults);
     (0, _paginationViewDefault.default).addHandlerClick(controlPagination);
-// searchView.addHandlerSubmit(controlPagination);
+    (0, _recipeViewDefault.default).addHandlerAddBookmark(controlAddBookmark);
+// recipeView.addHandlerRemoveBookmark(controlAddBookmark);
 };
 init();
 
@@ -2524,6 +2535,8 @@ parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
 parcelHelpers.export(exports, "loadSearchResults", ()=>loadSearchResults);
 parcelHelpers.export(exports, "getSearchResultsPage", ()=>getSearchResultsPage);
 parcelHelpers.export(exports, "updateServings", ()=>updateServings);
+parcelHelpers.export(exports, "addBookmark", ()=>addBookmark);
+parcelHelpers.export(exports, "removeBookmark", ()=>removeBookmark);
 var _config = require("./config");
 var _helpers = require("./helpers");
 const state = {
@@ -2533,7 +2546,8 @@ const state = {
         results: [],
         resultsPerPage: (0, _config.RES_PER_PAGE),
         page: 1
-    }
+    },
+    bookmarks: []
 };
 const loadRecipe = async function(id) {
     try {
@@ -2549,6 +2563,7 @@ const loadRecipe = async function(id) {
             cookingTime: recipe.cooking_time,
             ingredients: recipe.ingredients
         };
+        if (state.bookmarks.some((bookmark)=>bookmark.id === id)) state.recipe.bookmarked = !state.recipe.bookmarked;
         console.log(state.recipe);
     } catch (err) {
         throw err;
@@ -2594,6 +2609,18 @@ const updateServings = function(newServings) {
         ing.quantity = ing.quantity * newServings / state.recipe.servings;
     });
     state.recipe.servings = newServings;
+};
+const addBookmark = function(recipe) {
+    // Add bookmark
+    state.bookmarks.push(recipe);
+    // Mark current recipe as bookmark
+    if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
+};
+const removeBookmark = function(recipe) {
+    // Remove bookmark
+    state.bookmarks.pop(recipe);
+    // Unmark current recipe as bookmark
+    if (recipe.id === state.recipe.id) state.recipe.bookmarked = false;
 };
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config":"k5Hzs","./helpers":"hGI1E"}],"k5Hzs":[function(require,module,exports) {
@@ -2659,6 +2686,13 @@ class RecipeView extends (0, _viewDefault.default) {
             +updateTo > 0 && handler(+updateTo);
         });
     }
+    addHandlerAddBookmark(handler) {
+        this._parentElement.addEventListener("click", function(e) {
+            const btn = e.target.closest(".btn--bookmark");
+            if (!btn) return;
+            handler();
+        });
+    }
     _generateMarkup() {
         return ` <figure class="recipe__fig">
         <img
@@ -2691,12 +2725,18 @@ class RecipeView extends (0, _viewDefault.default) {
           <span class="recipe__info-text">servings</span>
 
           <div class="recipe__info-buttons">
-            <button class="btn--tiny btn--update-servings" data-update-to="${this._data.servings - 1}">
+            <button
+              class="btn--tiny btn--update-servings"
+              data-update-to="${this._data.servings - 1}"
+            >
               <svg>
                 <use href="${0, _iconsSvgDefault.default}#icon-minus-circle"></use>
               </svg>
             </button>
-            <button class="btn--tiny btn--update-servings"  data-update-to="${this._data.servings + 1}">
+            <button
+              class="btn--tiny btn--update-servings"
+              data-update-to="${this._data.servings + 1}"
+            >
               <svg>
                 <use href="${0, _iconsSvgDefault.default}#icon-plus-circle"></use>
               </svg>
@@ -2704,12 +2744,12 @@ class RecipeView extends (0, _viewDefault.default) {
           </div>
         </div>
 
-        <div class="recipe__user-generated">
-          
-        </div>
-        <button class="btn--round">
+        <div class="recipe__user-generated"></div>
+        <button class="btn--round btn--bookmark">
           <svg class="">
-            <use href="${0, _iconsSvgDefault.default}#icon-bookmark-fill"></use>
+            <use
+              href="${0, _iconsSvgDefault.default}#icon-bookmark${this._data.bookmarked ? "-fill" : ""}"
+            ></use>
           </svg>
         </button>
       </div>
@@ -3189,6 +3229,13 @@ var _iconsSvg = require("../../img/icons.svg");
 var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 class PaginationView extends (0, _viewDefault.default) {
     _parentElement = document.querySelector(".pagination");
+    addHandlerClick(handler) {
+        this._parentElement.addEventListener("click", function(e) {
+            const btn = e.target.closest(".btn--inline");
+            if (!btn) return;
+            handler(+btn.dataset.goto);
+        });
+    }
     _generateMarkup() {
         const numPages = Math.ceil(this._data.results.length / this._data.resultsPerPage);
         const currPage = this._data.page;
@@ -3222,13 +3269,6 @@ class PaginationView extends (0, _viewDefault.default) {
               <span>Page ${position}</span>`}
       </button>
     `;
-    }
-    addHandlerClick(handler) {
-        this._parentElement.addEventListener("click", function(e) {
-            const btn = e.target.closest(".btn--inline");
-            if (!btn) return;
-            return handler(+btn.dataset.goto);
-        });
     }
 }
 exports.default = new PaginationView();

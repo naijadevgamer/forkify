@@ -69,6 +69,18 @@ const controlServings = function (newServings) {
   recipeView.update(model.state.recipe);
 };
 
+const controlAddBookmark = function () {
+  model.addBookmark(model.state.recipe);
+  recipeView.update(model.state.recipe);
+  console.log(model.state.recipe);
+};
+
+const controlRemoveBookmark = function () {
+  model.removeBookmark(model.state.recipe);
+  recipeView.update(model.state.recipe);
+  console.log(model.state.recipe);
+};
+
 // const fractionConverter = function (deci) {
 //   const splet = deci.split('.');
 //   const [whole, fraction] = splet;
@@ -94,7 +106,8 @@ const init = function () {
   recipeView.addHandlerUpdateServings(controlServings);
   searchView.addHandlerSubmit(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
-  // searchView.addHandlerSubmit(controlPagination);
+  recipeView.addHandlerAddBookmark(controlAddBookmark);
+  // recipeView.addHandlerRemoveBookmark(controlAddBookmark);
 };
 
 init();
