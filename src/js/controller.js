@@ -7,9 +7,9 @@ import paginationView from './views/paginationView';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
-if (module.hot) {
-  module.hot.accept();
-}
+// if (module.hot) {
+//   module.hot.accept();
+// }
 
 const controlRecipes = async function () {
   try {
@@ -17,6 +17,9 @@ const controlRecipes = async function () {
 
     if (!id) return;
     recipeView.renderSpinner();
+
+    // 0) Update results view to mark selected search result
+    resultsView.update(model.getSearchResultsPage());
 
     // 1) Loading Recipe
     await model.loadRecipe(id);
@@ -91,6 +94,7 @@ const init = function () {
   recipeView.addHandlerUpdateServings(controlServings);
   searchView.addHandlerSubmit(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
+  // searchView.addHandlerSubmit(controlPagination);
 };
 
 init();

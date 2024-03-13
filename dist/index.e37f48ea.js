@@ -596,12 +596,16 @@ var _resultsViewDefault = parcelHelpers.interopDefault(_resultsView);
 var _paginationView = require("./views/paginationView");
 var _paginationViewDefault = parcelHelpers.interopDefault(_paginationView);
 var _runtime = require("regenerator-runtime/runtime");
-if (module.hot) module.hot.accept();
+// if (module.hot) {
+//   module.hot.accept();
+// }
 const controlRecipes = async function() {
     try {
         const id = window.location.hash.slice(1);
         if (!id) return;
         (0, _recipeViewDefault.default).renderSpinner();
+        // 0) Update results view to mark selected search result
+        (0, _resultsViewDefault.default).update(_model.getSearchResultsPage());
         // 1) Loading Recipe
         await _model.loadRecipe(id);
         // 2) Rendering recipes
@@ -660,6 +664,7 @@ const init = function() {
     (0, _recipeViewDefault.default).addHandlerUpdateServings(controlServings);
     (0, _searchViewDefault.default).addHandlerSubmit(controlSearchResults);
     (0, _paginationViewDefault.default).addHandlerClick(controlPagination);
+// searchView.addHandlerSubmit(controlPagination);
 };
 init();
 
@@ -3058,7 +3063,6 @@ class View {
         this._parentElement.insertAdjacentHTML("afterbegin", markup);
     }
     update(data) {
-        if (!data || Array.isArray(data) && data.length === 0) return this.renderError();
         this._data = data;
         const newMarkup = this._generateMarkup();
         // To create virtual dom
@@ -3153,10 +3157,11 @@ class ResultView extends (0, _viewDefault.default) {
     _message = "";
     _errorMessage = "Could not find what you are looking for!\uD83E\uDD37\u200D\u2642\uFE0F Make sure to check if the spelling of the recipe you entered is correct \uD83D\uDE0A";
     _generateMarkup() {
+        const id = window.location.hash.slice(1);
         return `
     ${this._data.map((result)=>`<li class="preview">
           <a
-            class="preview__link"
+            class="preview__link ${result.id === id ? "preview__link--active" : ""}"
             href="#${result.id}"
           >
             <figure class="preview__fig">

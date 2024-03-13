@@ -8,12 +8,15 @@ class ResultView extends View {
     'Could not find what you are looking for!🤷‍♂️ Make sure to check if the spelling of the recipe you entered is correct 😊';
 
   _generateMarkup() {
+    const id = window.location.hash.slice(1);
     return `
     ${this._data
       .map(
         result => `<li class="preview">
           <a
-            class="preview__link"
+            class="preview__link ${
+              result.id === id ? 'preview__link--active' : ''
+            }"
             href="#${result.id}"
           >
             <figure class="preview__fig">
