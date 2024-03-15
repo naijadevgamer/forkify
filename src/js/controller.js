@@ -70,16 +70,11 @@ const controlServings = function (newServings) {
 };
 
 const controlAddBookmark = function () {
-  model.addBookmark(model.state.recipe);
+  if (!model.state.recipe.bookmarked) model.addBookmark(model.state.recipe);
+  else model.deleteBookmark(model.state.recipe.id);
   recipeView.update(model.state.recipe);
   console.log(model.state.recipe);
 };
-
-// const controlRemoveBookmark = function () {
-//   model.removeBookmark(model.state.recipe);
-//   recipeView.update(model.state.recipe);
-//   // console.log(model.state.recipe);
-// };
 
 // const fractionConverter = function (deci) {
 //   const splet = deci.split('.');
@@ -107,7 +102,6 @@ const init = function () {
   searchView.addHandlerSubmit(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
   recipeView.addHandlerAddBookmark(controlAddBookmark);
-  // recipeView.addHandlerAddBookmark(controlRemoveBookmark);
 };
 
 init();

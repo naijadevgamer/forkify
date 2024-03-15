@@ -644,15 +644,11 @@ const controlServings = function(newServings) {
     (0, _recipeViewDefault.default).update(_model.state.recipe);
 };
 const controlAddBookmark = function() {
-    _model.addBookmark(_model.state.recipe);
+    if (!_model.state.recipe.bookmarked) _model.addBookmark(_model.state.recipe);
+    else _model.deleteBookmark(_model.state.recipe.id);
     (0, _recipeViewDefault.default).update(_model.state.recipe);
     console.log(_model.state.recipe);
 };
-// const controlRemoveBookmark = function () {
-//   model.removeBookmark(model.state.recipe);
-//   recipeView.update(model.state.recipe);
-//   // console.log(model.state.recipe);
-// };
 // const fractionConverter = function (deci) {
 //   const splet = deci.split('.');
 //   const [whole, fraction] = splet;
@@ -675,7 +671,6 @@ const init = function() {
     (0, _searchViewDefault.default).addHandlerSubmit(controlSearchResults);
     (0, _paginationViewDefault.default).addHandlerClick(controlPagination);
     (0, _recipeViewDefault.default).addHandlerAddBookmark(controlAddBookmark);
-// recipeView.addHandlerAddBookmark(controlRemoveBookmark);
 };
 init();
 
@@ -2536,7 +2531,7 @@ parcelHelpers.export(exports, "loadSearchResults", ()=>loadSearchResults);
 parcelHelpers.export(exports, "getSearchResultsPage", ()=>getSearchResultsPage);
 parcelHelpers.export(exports, "updateServings", ()=>updateServings);
 parcelHelpers.export(exports, "addBookmark", ()=>addBookmark);
-parcelHelpers.export(exports, "removeBookmark", ()=>removeBookmark);
+parcelHelpers.export(exports, "deleteBookmark", ()=>deleteBookmark);
 var _config = require("./config");
 var _helpers = require("./helpers");
 const state = {
@@ -2552,19 +2547,19 @@ const state = {
 const loadRecipe = async function(id) {
     try {
         const data = await (0, _helpers.getJSON)(`${(0, _config.API_URL)}${id}`);
-        let { recipe: recipe1 } = data.data;
+        let { recipe } = data.data;
         state.recipe = {
-            id: recipe1.id,
-            title: recipe1.title,
-            publisher: recipe1.publisher,
-            sourceUrl: recipe1.source_url,
-            image: recipe1.image_url,
-            servings: recipe1.servings,
-            cookingTime: recipe1.cooking_time,
-            ingredients: recipe1.ingredients
+            id: recipe.id,
+            title: recipe.title,
+            publisher: recipe.publisher,
+            sourceUrl: recipe.source_url,
+            image: recipe.image_url,
+            servings: recipe.servings,
+            cookingTime: recipe.cooking_time,
+            ingredients: recipe.ingredients
         };
         if (state.bookmarks.some((bookmark)=>bookmark.id === id)) state.recipe.bookmarked = !state.recipe.bookmarked;
-        console.log(state.recipe);
+        console.log(state.recipe.bookmarked);
     } catch (err) {
         throw err;
     }
@@ -2610,27 +2605,20 @@ const updateServings = function(newServings) {
     });
     state.recipe.servings = newServings;
 };
-const addBookmark = function(recipe1) {
-    if (recipe1.bookmarked === undefined || !recipe1.bookmarked) {
-        // Add bookmark
-        state.bookmarks.push(recipe1);
-        // Mark current recipe as bookmarked
-        if (recipe1.id === state.recipe.id) state.recipe.bookmarked = true;
-        console.log(state.bookmarks);
-    } else {
-        // Remove bookmark
-        state.bookmarks = state.bookmarks.filter((rec)=>rec.id !== recipe1.id);
-        // Unmark current recipe as bookmarked
-        if (recipe1.id === state.recipe.id) state.recipe.bookmarked = false;
-        console.log(state.bookmarks);
-    }
+const addBookmark = function(recipe) {
+    // Add bookmark
+    state.bookmarks.push(recipe);
+    // Mark current recipe as bookmarked
+    if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
+    console.log(state.bookmarks);
 };
-const removeBookmark = function(id) {
+const deleteBookmark = function(id) {
     const index = state.bookmarks.findIndex((el)=>el.id === id);
     // Remove bookmark
     state.bookmarks.splice(index, 1);
     // Unmark current recipe as bookmarked
-    if (recipe.id === state.recipe.id) state.recipe.bookmarked = false;
+    if (id === state.recipe.id) state.recipe.bookmarked = false;
+    console.log(state.bookmarks);
 };
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config":"k5Hzs","./helpers":"hGI1E"}],"k5Hzs":[function(require,module,exports) {
