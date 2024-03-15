@@ -595,6 +595,8 @@ var _resultsView = require("./views/resultsView");
 var _resultsViewDefault = parcelHelpers.interopDefault(_resultsView);
 var _paginationView = require("./views/paginationView");
 var _paginationViewDefault = parcelHelpers.interopDefault(_paginationView);
+var _bookmarksView = require("./views/bookmarksView");
+var _bookmarksViewDefault = parcelHelpers.interopDefault(_bookmarksView);
 var _runtime = require("regenerator-runtime/runtime");
 // if (module.hot) {
 //   module.hot.accept();
@@ -606,6 +608,7 @@ const controlRecipes = async function() {
         (0, _recipeViewDefault.default).renderSpinner();
         // 0) Update results view to mark selected search result
         (0, _resultsViewDefault.default).update(_model.getSearchResultsPage());
+        // bookmarksView.update(model.addBookmark);
         // 1) Loading Recipe
         await _model.loadRecipe(id);
         // 2) Rendering recipes
@@ -644,10 +647,14 @@ const controlServings = function(newServings) {
     (0, _recipeViewDefault.default).update(_model.state.recipe);
 };
 const controlAddBookmark = function() {
+    // Add/Remove bookmark
     if (!_model.state.recipe.bookmarked) _model.addBookmark(_model.state.recipe);
     else _model.deleteBookmark(_model.state.recipe.id);
+    // 2) Update recipe view
     (0, _recipeViewDefault.default).update(_model.state.recipe);
     console.log(_model.state.recipe);
+    // 3) Render bookmarks
+    (0, _bookmarksViewDefault.default).render(_model.state.bookmarks);
 };
 // const fractionConverter = function (deci) {
 //   const splet = deci.split('.');
@@ -674,7 +681,7 @@ const init = function() {
 };
 init();
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","./model":"Y4A21","./views/recipeView":"l60JC","./views/searchView":"9OQAM","./views/resultsView":"cSbZE","./views/paginationView":"6z7bi"}],"gkKU3":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","./model":"Y4A21","./views/recipeView":"l60JC","./views/searchView":"9OQAM","./views/resultsView":"cSbZE","./views/paginationView":"6z7bi","./views/bookmarksView":"4Lqzq"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -3270,6 +3277,45 @@ class PaginationView extends (0, _viewDefault.default) {
     }
 }
 exports.default = new PaginationView();
+
+},{"./view":"bWlJ9","../../img/icons.svg":"cMpiy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4Lqzq":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _view = require("./view");
+var _viewDefault = parcelHelpers.interopDefault(_view);
+var _iconsSvg = require("../../img/icons.svg");
+var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
+class BookmarksView extends (0, _viewDefault.default) {
+    _parentElement = document.querySelector(".bookmarks__list");
+    _message = "";
+    _errorMessage = "No bookmarks yet! \uD83E\uDD37\u200D\u2642\uFE0F Find a recipe to add to bookmarks \uD83D\uDE0A";
+    // addHandlerClick(handler) {
+    //   this._parentElement.addEventListener('click', function (e) {
+    //     const btn = e.target.closest('.btn--inline');
+    //     if (!btn) return;
+    //     handler(+btn.dataset.goto);
+    //   });
+    // }
+    _generateMarkup() {
+        console.log(this._data);
+        const id = window.location.hash.slice(1);
+        return this._data.map((bookmark)=>`<li class="preview">
+          <a
+            class="preview__link ${bookmark.id === id ? "preview__link--active" : ""}"
+            href="#${bookmark.id}"
+          >
+            <figure class="preview__fig">
+              <img src="${bookmark.image}" alt="${bookmark.title}" />
+            </figure>
+            <div class="preview__bookmark">
+              <h4 class="preview__title">${bookmark.title} ...</h4>
+              <p class="preview__publisher">${bookmark.publisher}</p>
+            </div>
+          </a>
+        </li>`).join("");
+    }
+}
+exports.default = new BookmarksView();
 
 },{"./view":"bWlJ9","../../img/icons.svg":"cMpiy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["hycaY","aenu9"], "aenu9", "parcelRequire3a11")
 
