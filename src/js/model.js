@@ -9,7 +9,7 @@ export const state = {
     resultsPerPage: RES_PER_PAGE,
     page: 1,
   },
-  bookmarks: [],
+  bookmarks: JSON.parse(localStorage.getItem('bookmarks')) || [],
 };
 
 export const loadRecipe = async function (id) {
@@ -33,6 +33,7 @@ export const loadRecipe = async function (id) {
 
     console.log(state.recipe.bookmarked);
   } catch (err) {
+    console.error(err);
     throw err;
   }
   // const {
@@ -63,6 +64,7 @@ export const loadSearchResults = async function (query) {
     console.log(state.search.results);
     state.search.page = 1;
   } catch (err) {
+    console.log(err);
     throw err;
   }
 };
@@ -82,6 +84,10 @@ export const updateServings = function (newServings) {
   state.recipe.servings = newServings;
 };
 
+const persistBookmarks = function () {
+  localStorage.setItem('bookmarks', JSON.stringify(state.bookmarks));
+};
+
 export const addBookmark = function (recipe) {
   // Add bookmark
   state.bookmarks.push(recipe);
@@ -89,7 +95,7 @@ export const addBookmark = function (recipe) {
   // Mark current recipe as bookmarked
   if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
 
-  console.log(state.bookmarks);
+  persistBookmarks();
 };
 
 export const deleteBookmark = function (id) {
@@ -99,5 +105,6 @@ export const deleteBookmark = function (id) {
 
   // Unmark current recipe as bookmarked
   if (id === state.recipe.id) state.recipe.bookmarked = false;
-  console.log(state.bookmarks);
+
+  persistBookmarks();
 };

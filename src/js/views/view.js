@@ -9,6 +9,9 @@ export default class View {
 
     this._data = data;
     const markup = this._generateMarkup();
+
+    // if (!render) return markup;
+
     this._clear();
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
   }
@@ -25,7 +28,7 @@ export default class View {
 
     newElements.forEach((newEl, i) => {
       const curEl = currElements[i];
-
+      console.log(curEl);
       // Updates changed TEXT
       if (
         !newEl.isEqualNode(curEl) &&
