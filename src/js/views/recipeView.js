@@ -30,7 +30,7 @@ class RecipeView extends View {
   }
 
   _generateMarkup() {
-    return ` <figure class="recipe__fig">
+    return `<figure class="recipe__fig">
         <img
           src="${this._data.image}"
           alt="${this._data.title}"
@@ -80,7 +80,11 @@ class RecipeView extends View {
           </div>
         </div>
 
-        <div class="recipe__user-generated"></div>
+        <div class="recipe__user-generated ${this._data.key ? '' : 'hidden'}">
+          <svg>
+            <use href="${icons}#icon-user"></use>
+          </svg>
+        </div>
         <button class="btn--round btn--bookmark">
           <svg class="">
             <use

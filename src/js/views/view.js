@@ -3,6 +3,12 @@ import icons from '../../img/icons.svg';
 export default class View {
   _data;
 
+  /**
+   *
+   * @param {*} data
+   * @returns
+   *
+   */
   render(data) {
     if (!data || (Array.isArray(data) && data.length === 0))
       return this.renderError();
@@ -28,7 +34,6 @@ export default class View {
 
     newElements.forEach((newEl, i) => {
       const curEl = currElements[i];
-      console.log(curEl);
       // Updates changed TEXT
       if (
         !newEl.isEqualNode(curEl) &&
