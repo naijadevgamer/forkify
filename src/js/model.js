@@ -108,3 +108,7 @@ export const deleteBookmark = function (id) {
 
   persistBookmarks();
 };
+
+export const uploadRecipe = function (newRecipe) {
+  // const ingredients = Ob;
+};
