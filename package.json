@@ -7,7 +7,7 @@
   "scripts": {
     "start": "parcel index.html",
     "build": "parcel build index.html --dist-dir ./dist",
-    "predeploy": "npm run build",
+    "predeploy": "npm start",
     "deploy": "gh-pages -d dist"
   },
   "author": "Abdullah Alaba",
