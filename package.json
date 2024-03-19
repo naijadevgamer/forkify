@@ -5,8 +5,8 @@
   "default": "index.html",
   "homepage": "https://thenaijagamer.github.io/forkify",
   "scripts": {
-    "start": "parcel index.html",
-    "build": "parcel build index.html --dist-dir ./dist",
+    "start": "parcel index.html --public-url ./",
+    "build": "parcel build index.html --public-url ./ --dist-dir ./dist",
     "deploy": "gh-pages -d dist"
   },
   "author": "Abdullah Alaba",

@@ -10,10 +10,6 @@ import addRecipeView from './views/addRecipeView';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
-// if (module.hot) {
-//   module.hot.accept();
-// }
-
 const controlRecipes = async function () {
   try {
     const id = window.location.hash.slice(1);
@@ -33,7 +29,6 @@ const controlRecipes = async function () {
 
     // controlServings(4);
   } catch (err) {
-    console.error(err);
     recipeView.renderError(err.message);
   }
 };
@@ -53,7 +48,6 @@ const controlSearchResults = async function () {
     // 3) Render initial pagination buttons
     paginationView.render(model.state.search);
   } catch (err) {
-    console.error(err);
     resultsView.renderError(err.message);
   }
 };
@@ -82,7 +76,6 @@ const controlAddBookmark = function () {
 
   // 2) Update recipe view
   recipeView.update(model.state.recipe);
-  console.log(model.state.recipe);
 
   // 3) Render bookmarks
   bookmarksView.render(model.state.bookmarks);
@@ -115,7 +108,6 @@ const controlAddRecipe = async function (newRecipe) {
     }, MODAL_CLOSE_SEC * 1000);
   } catch (err) {
     addRecipeView.renderError(err.message);
-    console.error(err.message);
   }
 };
 // const fractionConverter = function (deci) {
