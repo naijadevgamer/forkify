@@ -2229,18 +2229,20 @@ class RecipeView extends (0, _viewDefault.default) {
           </div>
         </div>
 
-        <div class="recipe__user-generated ${this._data.key ? "" : "hidden"}">
-          <svg>
-            <use href="${0, _iconsSvgDefault.default}#icon-user"></use>
-          </svg>
+        <div class="recipe__info-icons-wrapper">
+          <div class="recipe__user-generated ${this._data.key ? "" : "hidden"}">
+            <svg>
+              <use href="${0, _iconsSvgDefault.default}#icon-user"></use>
+            </svg>
+          </div>
+          <button class="btn--round btn--bookmark">
+            <svg class="">
+              <use
+                href="${0, _iconsSvgDefault.default}#icon-bookmark${this._data.bookmarked ? "-fill" : ""}"
+              ></use>
+            </svg>
+          </button>
         </div>
-        <button class="btn--round btn--bookmark">
-          <svg class="">
-            <use
-              href="${0, _iconsSvgDefault.default}#icon-bookmark${this._data.bookmarked ? "-fill" : ""}"
-            ></use>
-          </svg>
-        </button>
       </div>
 
       <div class="recipe__ingredients">
@@ -2771,7 +2773,7 @@ class PaginationView extends (0, _viewDefault.default) {
         data-goto="${position}"
         class="btn--inline pagination__btn--${pos}"
       >
-        ${pos === "next" ? `<span>Page ${position}</span>
+        ${pos === "next" ? `<span class="pagination__span">Page</span> <span>${position}</span>
               <svg class="search__icon">
                 <use
                   href="${0, _iconsSvgDefault.default}#icon-arrow-${pos === "next" ? "right" : "left"}"
@@ -2781,7 +2783,7 @@ class PaginationView extends (0, _viewDefault.default) {
                   href="${0, _iconsSvgDefault.default}#icon-arrow-${pos === "next" ? "right" : "left"}"
                 ></use>
               </svg>
-              <span>Page ${position}</span>`}
+              <span class="pagination__span">Page</span> <span> ${position}</span>`}
       </button>
     `;
     }

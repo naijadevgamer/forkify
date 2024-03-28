@@ -8,6 +8,12 @@
       transition: all 0.3s;
       border-right: 1px solid #fff;
       text-decoration: none;
+      @media only screen and (max-width: $bp-medium) {
+        padding: 1.5rem 2rem;
+      }
+      @media only screen and (max-width: $bp-small) {
+        padding: 1.5rem 1.5rem;
+      }
     }
 
     &:hover {
@@ -28,6 +34,11 @@
     margin-right: 2rem;
     position: relative;
     backface-visibility: hidden;
+    @media only screen and (max-width: $bp-small) {
+      flex: 0 0 5rem;
+      height: 5rem;
+      margin-right: 1rem;
+    }
 
     &::before {
       content: '';

@@ -1,5 +1,6 @@
 .recipe {
   background-color: $color-grey-light-1;
+  position: relative;
 
   ///////////
   // FIGURE
@@ -8,6 +9,13 @@
     position: relative;
     // transform: scale(1.04) translateY(-1px);
     transform-origin: top;
+
+    // @media only screen and (max-width: $bp-medium) {
+    //   height: 35vw;
+    // }
+    @media only screen and (max-width: $bp-small) {
+      height: 35vw;
+    }
 
     &::before {
       content: '';
@@ -68,6 +76,10 @@
     display: flex;
     align-items: center;
     padding: 7.5rem 8rem 3.5rem 8rem;
+    @media only screen and (max-width: $bp-medium) {
+      padding: 5rem 4rem 2rem 4rem;
+      flex-direction: column;
+    }
   }
 
   &__info {
@@ -78,7 +90,15 @@
 
     &:not(:last-child) {
       margin-right: 4.5rem;
+      @media only screen and (max-width: $bp-medium) {
+        margin-right: 0;
+      }
     }
+  }
+  &__info-icons-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   &__info-icon {
@@ -129,6 +149,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    @media only screen and (max-width: $bp-medium) {
+      padding: 2rem 3rem;
+    }
   }
 
   &__ingredient-list {
@@ -164,6 +187,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    @media only screen and (max-width: $bp-small) {
+      padding: 2rem 4rem;
+      padding-bottom: 2rem;
+    }
   }
 
   &__directions-text {

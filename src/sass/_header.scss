@@ -15,6 +15,9 @@
     margin-left: 4rem;
     height: 4.6rem;
     display: block;
+    @media only screen and (max-width: $bp-small) {
+      margin-left: 2rem;
+    }
   }
 }
 
@@ -29,6 +32,9 @@
     order: 1;
     width: 60rem;
     margin: 0 4rem;
+  }
+  @media only screen and (max-width: $bp-small) {
+    margin: 0 2rem;
   }
 
   &:focus-within {
@@ -53,11 +59,7 @@
     }
 
     @media only screen and (max-width: $bp-medium) {
-      width: auto;
-
-      &::placeholder {
-        color: white;
-      }
+      width: 100%;
     }
   }
 

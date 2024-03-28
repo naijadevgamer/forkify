@@ -46,7 +46,7 @@ class PaginationView extends View {
       >
         ${
           pos === 'next'
-            ? `<span>Page ${position}</span>
+            ? `<span class="pagination__span">Page</span> <span>${position}</span>
               <svg class="search__icon">
                 <use
                   href="${icons}#icon-arrow-${
@@ -61,7 +61,7 @@ class PaginationView extends View {
               }"
                 ></use>
               </svg>
-              <span>Page ${position}</span>`
+              <span class="pagination__span">Page</span> <span> ${position}</span>`
         }
       </button>
     `;
