@@ -5,7 +5,7 @@
   "default": "index.html",
   "homepage": "https://thenaijagamer.github.io/forkify",
   "scripts": {
-    "start": "parcel index.html --public-url ./",
+    "start": "parcel index.html",
     "build": "parcel build index.html --public-url ./ --dist-dir ./dist",
     "deploy": "gh-pages -d dist"
   },

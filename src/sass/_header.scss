@@ -4,6 +4,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  @media only screen and (max-width: $bp-medium) {
+    font-size: 50%;
+    flex-wrap: wrap;
+    align-content: space-around;
+    justify-items: center;
+  }
 
   &__logo {
     margin-left: 4rem;
@@ -19,6 +25,11 @@
   align-items: center;
   padding-left: 3rem;
   transition: all 0.3s;
+  @media only screen and (max-width: $bp-medium) {
+    order: 1;
+    width: 60rem;
+    margin: 0 4rem;
+  }
 
   &:focus-within {
     transform: translateY(-2px);
@@ -53,6 +64,9 @@
   &__btn {
     font-weight: 600;
     font-family: inherit;
+    @media only screen and (max-width: $bp-medium) {
+      margin-left: auto;
+    }
   }
 }
 

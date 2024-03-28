@@ -51,6 +51,12 @@ body {
   }
 }
 
+@media only screen and (width <= 61.25em) {
+  .container {
+    grid-template-rows: 15rem minmax(100rem, auto);
+  }
+}
+
 .btn--small, .btn--small:link, .btn--small:visited, .btn {
   text-transform: uppercase;
   color: #fff;
@@ -258,6 +264,15 @@ body {
   display: flex;
 }
 
+@media only screen and (width <= 61.25em) {
+  .header {
+    flex-wrap: wrap;
+    align-content: space-around;
+    justify-items: center;
+    font-size: 50%;
+  }
+}
+
 .header__logo {
   height: 4.6rem;
   margin-left: 4rem;
@@ -271,6 +286,14 @@ body {
   padding-left: 3rem;
   transition: all .3s;
   display: flex;
+}
+
+@media only screen and (width <= 61.25em) {
+  .search {
+    order: 1;
+    width: 60rem;
+    margin: 0 4rem;
+  }
 }
 
 .search:focus-within {
@@ -308,6 +331,12 @@ body {
 .search__btn {
   font-family: inherit;
   font-weight: 600;
+}
+
+@media only screen and (width <= 61.25em) {
+  .search__btn {
+    margin-left: auto;
+  }
 }
 
 .nav {
