@@ -34,9 +34,10 @@ body {
   border-radius: 9px;
   grid-template: "head head" 10rem
                  "list recipe" minmax(100rem, auto)
+                 "list copy" 5rem
                  / 1fr 2fr;
   max-width: 120rem;
-  min-height: 117rem;
+  min-height: 100vh;
   margin: 4vw auto;
   display: grid;
   overflow: hidden;
@@ -59,6 +60,7 @@ body {
 
 @media only screen and (width <= 37.5em) {
   .container {
+    grid-template-rows: 15rem minmax(auto, calc(100vh - 15rem));
     grid-template-columns: 2fr 3fr;
   }
 }
@@ -67,7 +69,8 @@ body {
   .container {
     grid-template-columns: 1fr;
     grid-template-areas: "head head"
-                         "recipe recipe";
+                         "recipe recipe"
+                         "copy copy";
   }
 }
 
@@ -566,8 +569,8 @@ body {
   .search-results {
     z-index: 10;
     background-color: #fff;
-    width: 80%;
-    height: fit-content;
+    width: 0%;
+    min-height: calc(100vh - 15rem);
     position: absolute;
     top: 15rem;
     left: 0;
@@ -617,6 +620,7 @@ body {
 }
 
 .recipe {
+  z-index: 2;
   background-color: #f9f5f3;
   position: relative;
 }
@@ -629,7 +633,7 @@ body {
 
 @media only screen and (width <= 37.5em) {
   .recipe__fig {
-    height: 35vw;
+    height: 40vw;
   }
 }
 
@@ -814,6 +818,20 @@ body {
 
 .recipe__publisher {
   font-weight: 700;
+}
+
+.copyrecipe {
+  text-align: center;
+  background-color: #f9f5f3;
+  grid-area: copy;
+  margin-top: 0;
+  padding: 2rem 5rem;
+}
+
+@media only screen and (width <= 37.5em) {
+  .copyrecipe {
+    padding: 2rem;
+  }
 }
 
 .add-recipe-window {

@@ -600,6 +600,8 @@ var _bookmarksView = require("./views/bookmarksView");
 var _bookmarksViewDefault = parcelHelpers.interopDefault(_bookmarksView);
 var _addRecipeView = require("./views/addRecipeView");
 var _addRecipeViewDefault = parcelHelpers.interopDefault(_addRecipeView);
+var _showSearchView = require("./views/showSearchView");
+var _showSearchViewDefault = parcelHelpers.interopDefault(_showSearchView);
 var _runtime = require("regenerator-runtime/runtime");
 const controlRecipes = async function() {
     try {
@@ -706,7 +708,7 @@ const init = function() {
 };
 init();
 
-},{"core-js/modules/web.immediate.js":"49tUX","./model":"Y4A21","./config":"k5Hzs","./views/recipeView":"l60JC","./views/searchView":"9OQAM","./views/resultsView":"cSbZE","./views/paginationView":"6z7bi","./views/bookmarksView":"4Lqzq","./views/addRecipeView":"i6DNj","regenerator-runtime/runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"49tUX":[function(require,module,exports) {
+},{"core-js/modules/web.immediate.js":"49tUX","./model":"Y4A21","./config":"k5Hzs","./views/recipeView":"l60JC","./views/searchView":"9OQAM","./views/resultsView":"cSbZE","./views/paginationView":"6z7bi","./views/bookmarksView":"4Lqzq","./views/addRecipeView":"i6DNj","regenerator-runtime/runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./views/showSearchView":"ld7bY"}],"49tUX":[function(require,module,exports) {
 "use strict";
 // TODO: Remove this module from `core-js@4` since it's split to modules listed below
 require("52e9b3eefbbce1ed");
@@ -2672,10 +2674,6 @@ class SearchView {
     #clearInput() {
         this.#parentElement.querySelector(".search__field").value = "";
     }
-    // #showSearchResult() {
-    //   const hey = this.#parentElement.querySelector('.search__field').focus();
-    //   console.log('hey focus');
-    // }
     // MVC: Publisher
     addHandlerSubmit(handler) {
         this.#parentElement.addEventListener("submit", function(e) {
@@ -3440,6 +3438,28 @@ try {
     else Function("r", "regeneratorRuntime = r")(runtime);
 }
 
-},{}]},["hycaY","aenu9"], "aenu9", "parcelRequire3a11")
+},{}],"ld7bY":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _view = require("./view");
+var _viewDefault = parcelHelpers.interopDefault(_view);
+class AddRecipeView extends (0, _viewDefault.default) {
+    _parentElement = document.querySelector(".search");
+    _searchResults = document.querySelector(".search__field");
+    constructor(){
+        super();
+        this._addHandlerShowResults();
+    }
+    _addHandlerShowResults() {
+        this._searchResults.addEventListener("focus", this._showSearchResult.bind(this));
+    }
+    _showSearchResult() {
+        // this._parentElement.querySelector('.search__field').style.width = "80%"
+        console.log("hey focus");
+    }
+}
+exports.default = new AddRecipeView();
+
+},{"./view":"bWlJ9","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["hycaY","aenu9"], "aenu9", "parcelRequire3a11")
 
 //# sourceMappingURL=index.e37f48ea.js.map

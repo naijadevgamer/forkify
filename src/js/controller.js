@@ -6,6 +6,7 @@ import resultsView from './views/resultsView';
 import paginationView from './views/paginationView';
 import bookmarksView from './views/bookmarksView';
 import addRecipeView from './views/addRecipeView';
+import showSearchView from './views/showSearchView';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';

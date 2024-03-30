@@ -49,7 +49,7 @@ body {
 
 .container {
   max-width: 120rem;
-  min-height: 117rem;
+  min-height: 100vh;
   margin: 4vw auto;
   background-color: #fff;
   border-radius: 9px;
@@ -57,11 +57,12 @@ body {
   box-shadow: 0 2rem 6rem 0.5rem rgba($color-grey-dark-1, 0.2);
 
   display: grid;
-  grid-template-rows: 10rem minmax(100rem, auto);
+  grid-template-rows: 10rem minmax(100rem, auto) 5rem;
   grid-template-columns: 1fr 2fr;
   grid-template-areas:
     'head head'
-    'list recipe';
+    'list recipe'
+    'list copy';
 
   @media only screen and (max-width: $bp-large) {
     max-width: 100%;
@@ -73,11 +74,13 @@ body {
   }
   @media only screen and (max-width: $bp-small) {
     grid-template-columns: 2fr 3fr;
+    grid-template-rows: 15rem minmax(auto, calc(100vh - 15rem));
   }
   @media only screen and (max-width: $bp-smallest) {
     grid-template-columns: 1fr;
     grid-template-areas:
       'head head'
-      'recipe recipe';
+      'recipe recipe'
+      'copy copy';
   }
 }

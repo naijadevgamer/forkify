@@ -1,20 +1,18 @@
 .recipe {
   background-color: $color-grey-light-1;
   position: relative;
-
+  z-index: 2;
   ///////////
   // FIGURE
   &__fig {
     height: 32rem;
     position: relative;
-    // transform: scale(1.04) translateY(-1px);
     transform-origin: top;
-
     // @media only screen and (max-width: $bp-medium) {
     //   height: 35vw;
     // }
     @media only screen and (max-width: $bp-small) {
-      height: 35vw;
+      height: 40vw;
     }
 
     &::before {
@@ -202,5 +200,15 @@
 
   &__publisher {
     font-weight: 700;
+  }
+}
+.copyrecipe {
+  grid-area: copy;
+  margin-top: 0;
+  background-color: $color-grey-light-1;
+  text-align: center;
+  padding: 2rem 5rem;
+  @media only screen and (max-width: $bp-small) {
+    padding: 2rem;
   }
 }

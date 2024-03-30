@@ -8,8 +8,8 @@
     top: 15rem;
     left: 0;
     z-index: 10;
-    height: fit-content;
-    width: 80%;
+    min-height: calc(100vh - 15rem);
+    width: 0%;
     overflow: hidden;
     background-color: #fff;
   }
