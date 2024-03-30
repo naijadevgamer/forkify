@@ -63,6 +63,14 @@ body {
   }
 }
 
+@media only screen and (width <= 31.25em) {
+  .container {
+    grid-template-columns: 1fr;
+    grid-template-areas: "head head"
+                         "recipe recipe";
+  }
+}
+
 .btn--small, .btn--small:link, .btn--small:visited, .btn {
   text-transform: uppercase;
   color: #fff;
@@ -552,6 +560,19 @@ body {
   flex-direction: column;
   padding: 3rem 0;
   display: flex;
+}
+
+@media only screen and (width <= 31.25em) {
+  .search-results {
+    z-index: 10;
+    background-color: #fff;
+    width: 80%;
+    height: fit-content;
+    position: absolute;
+    top: 15rem;
+    left: 0;
+    overflow: hidden;
+  }
 }
 
 .results {

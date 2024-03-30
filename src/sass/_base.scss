@@ -70,15 +70,14 @@ body {
   }
   @media only screen and (max-width: $bp-medium) {
     grid-template-rows: 15rem minmax(100rem, auto);
-    // grid-template-columns: 1fr;
-    // grid-template-areas:
-    //   'head head'
-    //   'recipe recipe';
   }
   @media only screen and (max-width: $bp-small) {
     grid-template-columns: 2fr 3fr;
-    // grid-template-areas:
-    //   'head head'
-    //   'recipe recipe';
+  }
+  @media only screen and (max-width: $bp-smallest) {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'head head'
+      'recipe recipe';
   }
 }
