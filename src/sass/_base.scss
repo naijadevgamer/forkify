@@ -57,7 +57,7 @@ body {
   box-shadow: 0 2rem 6rem 0.5rem rgba($color-grey-dark-1, 0.2);
 
   display: grid;
-  grid-template-rows: 10rem minmax(100rem, auto) 5rem;
+  grid-template-rows: 10rem minmax(100rem, auto) auto;
   grid-template-columns: 1fr 2fr;
   grid-template-areas:
     'head head'
@@ -70,17 +70,16 @@ body {
     border-radius: 0;
   }
   @media only screen and (max-width: $bp-medium) {
-    grid-template-rows: 15rem minmax(100rem, auto);
+    grid-template-rows: 15rem minmax(100rem, auto) auto;
   }
   @media only screen and (max-width: $bp-small) {
-    grid-template-columns: 2fr 3fr;
-    grid-template-rows: 15rem minmax(calc(100vh - 15rem), auto);
-  }
-  @media only screen and (max-width: $bp-smallest) {
     grid-template-columns: 1fr;
     grid-template-areas:
       'head head'
       'recipe recipe'
       'copy copy';
+    grid-template-rows: 15rem minmax(calc(100vh - 15rem), auto) auto;
+  }
+  @media only screen and (max-width: $bp-smallest) {
   }
 }

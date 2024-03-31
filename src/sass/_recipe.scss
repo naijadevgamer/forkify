@@ -8,9 +8,6 @@
     height: 32rem;
     position: relative;
     transform-origin: top;
-    // @media only screen and (max-width: $bp-medium) {
-    //   height: 35vw;
-    // }
     @media only screen and (max-width: $bp-small) {
       height: 40vw;
     }
@@ -66,6 +63,10 @@
     @media only screen and (max-width: $bp-medium) {
       width: 70%;
     }
+    @media only screen and (max-width: $bp-small) {
+      width: 90%;
+      font-size: 2rem;
+    }
   }
 
   ///////////
@@ -75,8 +76,11 @@
     align-items: center;
     padding: 7.5rem 8rem 3.5rem 8rem;
     @media only screen and (max-width: $bp-medium) {
-      padding: 5rem 4rem 2rem 4rem;
+      padding: 10rem 4rem 2rem 4rem;
       flex-direction: column;
+    }
+    @media only screen and (max-width: $bp-medium) {
+      padding-top: 5rem;
     }
   }
 

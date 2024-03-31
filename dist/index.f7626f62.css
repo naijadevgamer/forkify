@@ -34,7 +34,7 @@ body {
   border-radius: 9px;
   grid-template: "head head" 10rem
                  "list recipe" minmax(100rem, auto)
-                 "list copy" 5rem
+                 "list copy"
                  / 1fr 2fr;
   max-width: 120rem;
   min-height: 100vh;
@@ -54,23 +54,16 @@ body {
 
 @media only screen and (width <= 61.25em) {
   .container {
-    grid-template-rows: 15rem minmax(100rem, auto);
+    grid-template-rows: 15rem minmax(100rem, auto) auto;
   }
 }
 
 @media only screen and (width <= 37.5em) {
   .container {
-    grid-template-rows: 15rem minmax(calc(100vh - 15rem), auto);
-    grid-template-columns: 2fr 3fr;
-  }
-}
-
-@media only screen and (width <= 31.25em) {
-  .container {
-    grid-template-columns: 1fr;
-    grid-template-areas: "head head"
-                         "recipe recipe"
-                         "copy copy";
+    grid-template: "head head" 15rem
+                   "recipe recipe" minmax(calc(100vh - 15rem), auto)
+                   "copy copy"
+                   / 1fr;
   }
 }
 
@@ -586,11 +579,12 @@ body {
 
 .search-results {
   flex-direction: column;
+  grid-area: list;
   padding: 3rem 0;
   display: flex;
 }
 
-@media only screen and (width <= 31.25em) {
+@media only screen and (width <= 37.5em) {
   .search-results {
     z-index: 10;
     background-color: #fff;
@@ -611,11 +605,17 @@ body {
 }
 
 .pagination {
-  margin-top: auto;
+  margin-top: 3rem;
   padding: 0 3.5rem;
 }
 
 @media only screen and (width <= 61.25em) {
+  .pagination {
+    padding: 0 2rem;
+  }
+}
+
+@media only screen and (width <= 37.5em) {
   .pagination {
     padding: 0 1.5rem;
   }
@@ -696,6 +696,13 @@ body {
 @media only screen and (width <= 61.25em) {
   .recipe__title {
     width: 70%;
+  }
+}
+
+@media only screen and (width <= 37.5em) {
+  .recipe__title {
+    width: 90%;
+    font-size: 2rem;
   }
 }
 
