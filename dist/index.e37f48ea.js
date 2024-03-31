@@ -607,6 +607,7 @@ const controlRecipes = async function() {
     try {
         const id = window.location.hash.slice(1);
         if (!id) return;
+        (0, _showSearchViewDefault.default)._hideSearchResult();
         (0, _recipeViewDefault.default).renderSpinner();
         // 0) Update results and bookmarks view to mark selected search result
         (0, _resultsViewDefault.default).update(_model.getSearchResultsPage());
@@ -3444,18 +3445,27 @@ parcelHelpers.defineInteropFlag(exports);
 var _view = require("./view");
 var _viewDefault = parcelHelpers.interopDefault(_view);
 class AddRecipeView extends (0, _viewDefault.default) {
-    _parentElement = document.querySelector(".search");
-    _searchResults = document.querySelector(".search__field");
+    _searchResults = document.querySelector(".search-results");
+    _searchField = document.querySelector(".search__field");
+    _recipe = document.querySelector(".recipe");
+    _copy = document.querySelector(".copyrecipe");
     constructor(){
         super();
         this._addHandlerShowResults();
+        this._addHandlerHideResults();
     }
     _addHandlerShowResults() {
-        this._searchResults.addEventListener("focus", this._showSearchResult.bind(this));
+        this._searchField.addEventListener("focus", this._showSearchResult.bind(this));
+    }
+    _addHandlerHideResults() {
+        this._recipe.addEventListener("click", this._hideSearchResult.bind(this));
+        this._copy.addEventListener("click", this._hideSearchResult.bind(this));
     }
     _showSearchResult() {
-        // this._parentElement.querySelector('.search__field').style.width = "80%"
-        console.log("hey focus");
+        this._searchResults.style.transform = "translateX(0)";
+    }
+    _hideSearchResult() {
+        this._searchResults.style.transform = "translateX(-100%)";
     }
 }
 exports.default = new AddRecipeView();

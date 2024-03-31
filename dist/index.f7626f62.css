@@ -60,7 +60,7 @@ body {
 
 @media only screen and (width <= 37.5em) {
   .container {
-    grid-template-rows: 15rem minmax(auto, calc(100vh - 15rem));
+    grid-template-rows: 15rem minmax(calc(100vh - 15rem), auto);
     grid-template-columns: 2fr 3fr;
   }
 }
@@ -271,6 +271,31 @@ body {
   font-size: 1.8rem;
   font-weight: 600;
   line-height: 1.5;
+}
+
+.copyright {
+  color: #918581;
+  margin-top: 4rem;
+  padding: 0 3.5rem;
+  font-size: 1.2rem;
+}
+
+.copyright .twitter-link:link, .copyright .twitter-link:visited {
+  color: #918581;
+}
+
+.copyrecipe {
+  text-align: center;
+  background-color: #f9f5f3;
+  grid-area: copy;
+  margin-top: 0;
+  padding: 2rem 5rem;
+}
+
+@media only screen and (width <= 37.5em) {
+  .copyrecipe {
+    padding: 2rem;
+  }
 }
 
 .header {
@@ -569,12 +594,14 @@ body {
   .search-results {
     z-index: 10;
     background-color: #fff;
-    width: 0%;
+    width: 80%;
     min-height: calc(100vh - 15rem);
+    transition: all .5s ease-in-out;
     position: absolute;
     top: 15rem;
     left: 0;
     overflow: hidden;
+    transform: translateX(-100%);
   }
 }
 
@@ -606,17 +633,6 @@ body {
 
 .pagination__btn--next {
   float: right;
-}
-
-.copyright {
-  color: #918581;
-  margin-top: 4rem;
-  padding: 0 3.5rem;
-  font-size: 1.2rem;
-}
-
-.copyright .twitter-link:link, .copyright .twitter-link:visited {
-  color: #918581;
 }
 
 .recipe {
@@ -818,20 +834,6 @@ body {
 
 .recipe__publisher {
   font-weight: 700;
-}
-
-.copyrecipe {
-  text-align: center;
-  background-color: #f9f5f3;
-  grid-area: copy;
-  margin-top: 0;
-  padding: 2rem 5rem;
-}
-
-@media only screen and (width <= 37.5em) {
-  .copyrecipe {
-    padding: 2rem;
-  }
 }
 
 .add-recipe-window {

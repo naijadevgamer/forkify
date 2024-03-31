@@ -202,13 +202,3 @@
     font-weight: 700;
   }
 }
-.copyrecipe {
-  grid-area: copy;
-  margin-top: 0;
-  background-color: $color-grey-light-1;
-  text-align: center;
-  padding: 2rem 5rem;
-  @media only screen and (max-width: $bp-small) {
-    padding: 2rem;
-  }
-}

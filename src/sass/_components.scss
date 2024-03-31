@@ -211,3 +211,26 @@
     font-weight: 600;
   }
 }
+
+.copyright {
+  color: $color-grey-dark-2;
+  font-size: 1.2rem;
+  padding: 0 3.5rem;
+  margin-top: 4rem;
+
+  .twitter-link:link,
+  .twitter-link:visited {
+    color: $color-grey-dark-2;
+  }
+}
+
+.copyrecipe {
+  grid-area: copy;
+  margin-top: 0;
+  background-color: $color-grey-light-1;
+  text-align: center;
+  padding: 2rem 5rem;
+  @media only screen and (max-width: $bp-small) {
+    padding: 2rem;
+  }
+}

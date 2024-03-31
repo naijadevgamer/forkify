@@ -9,9 +9,11 @@
     left: 0;
     z-index: 10;
     min-height: calc(100vh - 15rem);
-    width: 0%;
+    width: 80%;
+    transform: translateX(-100%);
     overflow: hidden;
     background-color: #fff;
+    transition: all 0.5s ease-in-out;
   }
 }
 
@@ -47,17 +49,5 @@
   &__span {
     @media only screen and (max-width: $bp-medium) {
     }
-  }
-}
-
-.copyright {
-  color: $color-grey-dark-2;
-  font-size: 1.2rem;
-  padding: 0 3.5rem;
-  margin-top: 4rem;
-
-  .twitter-link:link,
-  .twitter-link:visited {
-    color: $color-grey-dark-2;
   }
 }

@@ -16,6 +16,7 @@ const controlRecipes = async function () {
     const id = window.location.hash.slice(1);
 
     if (!id) return;
+    showSearchView._hideSearchResult();
     recipeView.renderSpinner();
 
     // 0) Update results and bookmarks view to mark selected search result
