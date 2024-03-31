@@ -2,6 +2,7 @@
   background-color: $color-grey-light-1;
   position: relative;
   z-index: 2;
+  grid-area: recipe;
   ///////////
   // FIGURE
   &__fig {

@@ -1,9 +1,11 @@
 .add-recipe-window {
-  position: fixed;
-  top: 50%;
+  position: absolute;
+  top: 7rem;
   left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100rem;
+
+  transform: translateX(-50%);
+  max-width: 100rem;
+  width: 95%;
   background-color: white;
   border-radius: 9px;
 
@@ -44,19 +46,28 @@
 
 .upload {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 2fr 3fr;
   gap: 4rem 6rem;
+  @media only screen and (max-width: $bp-medium) {
+    grid-template-rows: auto auto;
+    grid-template-columns: 1fr;
+  }
 
   &__column {
     display: grid;
-    grid-template-columns: 1fr 2.8fr;
-    align-items: center;
+    grid-template-columns: 0.8fr 1.2fr;
+    align-items: start;
     gap: 1.5rem;
+    justify-content: flex-start;
+    &--1 {
+      align-self: flex-start;
+    }
 
     & label {
-      font-size: 1.5rem;
-      font-weight: 600;
+      font-size: 1.7rem;
+      font-weight: 800;
       color: inherit;
+      text-transform: uppercase;
     }
 
     & input {
