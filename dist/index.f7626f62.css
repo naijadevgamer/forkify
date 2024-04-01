@@ -382,6 +382,12 @@ body {
   }
 }
 
+@media only screen and (width <= 31.25em) {
+  .search__btn {
+    padding: 1rem 2rem;
+  }
+}
+
 .nav {
   align-self: stretch;
   margin-right: 2.5rem;
@@ -421,6 +427,16 @@ body {
   transform: translateY(-1px);
 }
 
+@media only screen and (width <= 31.25em) {
+  .nav__btn svg {
+    margin-right: 0;
+  }
+
+  .nav__btn span {
+    display: none;
+  }
+}
+
 .nav__btn:focus {
   outline: none;
 }
@@ -440,6 +456,13 @@ body {
   position: absolute;
   right: -2.5rem;
   box-shadow: 0 .8rem 5rem 2rem #6155511a;
+}
+
+@media only screen and (width <= 31.25em) {
+  .bookmarks {
+    width: 90vw;
+    max-width: 40rem;
+  }
 }
 
 .bookmarks__list {

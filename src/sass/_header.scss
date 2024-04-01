@@ -69,6 +69,15 @@
     @media only screen and (max-width: $bp-medium) {
       margin-left: auto;
     }
+    @media only screen and (max-width: $bp-smallest) {
+      padding: 1rem 2rem;
+      // width: 20%;
+    }
+  }
+  span {
+    @media only screen and (max-width: $bp-smallest) {
+      // display: none;
+    }
   }
 }
 
@@ -98,7 +107,6 @@
     cursor: pointer;
     padding: 0 1.5rem;
     transition: all 0.3s;
-
     display: flex;
     align-items: center;
 
@@ -108,6 +116,14 @@
       fill: $color-primary;
       margin-right: 0.7rem;
       transform: translateY(-1px);
+      @media only screen and (max-width: $bp-smallest) {
+        margin-right: 0rem;
+      }
+    }
+    span {
+      @media only screen and (max-width: $bp-smallest) {
+        display: none;
+      }
     }
 
     &:focus {
@@ -123,7 +139,6 @@
 .bookmarks {
   padding: 1rem 0;
   position: absolute;
-  // right: 0;
   right: -2.5rem;
   z-index: 10;
   width: 40rem;
@@ -133,6 +148,10 @@
   visibility: hidden;
   opacity: 0;
   transition: all 0.5s 0.2s;
+  @media only screen and (max-width: $bp-smallest) {
+    max-width: 40rem;
+    width: 90vw;
+  }
 
   &__list {
     list-style: none;
