@@ -1,18 +1,21 @@
 .add-recipe-window {
-  position: absolute;
-  top: 7rem;
+  position: fixed;
+  top: 50%;
   left: 50%;
-
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   max-width: 100rem;
   width: 95%;
+  height: 90vh;
+  overflow-y: scroll;
   background-color: white;
   border-radius: 9px;
-
   padding: 5rem 6rem;
   box-shadow: 0 4rem 6rem rgba(0, 0, 0, 0.25);
   z-index: 1000;
   transition: all 0.5s;
+  @media only screen and (max-width: $bp-medium) {
+    padding: 2rem 3rem;
+  }
 
   .btn--close-modal {
     font-family: inherit;
@@ -58,9 +61,24 @@
     grid-template-columns: 0.8fr 1.2fr;
     align-items: start;
     gap: 1.5rem;
-    justify-content: flex-start;
+    @media only screen and (max-width: $bp-medium) {
+      grid-template-columns: 1fr 1fr;
+    }
+    @media only screen and (max-width: $bp-smallest) {
+      grid-template-columns: 1fr;
+    }
+
     &--1 {
       align-self: flex-start;
+      @media only screen and (max-width: $bp-medium) {
+        max-width: 70rem;
+        width: 100%;
+        grid-template-columns: 1fr 2fr;
+        margin: 0 auto;
+      }
+      @media only screen and (max-width: $bp-smallest) {
+        grid-template-columns: 1fr;
+      }
     }
 
     & label {
@@ -86,6 +104,10 @@
         border: 1px solid $color-primary;
         background-color: $color-grey-light-1;
       }
+
+      &[placeholder='Description'] {
+        margin-bottom: 2rem;
+      }
     }
 
     & button {
@@ -97,7 +119,7 @@
 
   &__heading {
     font-size: 2.25rem;
-    font-weight: 700;
+    font-weight: 800;
     text-transform: uppercase;
     margin-bottom: 1rem;
     grid-column: 1/-1;
