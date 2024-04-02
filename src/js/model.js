@@ -31,6 +31,7 @@ export const loadRecipe = async function (id) {
   try {
     const data = await AJAX(`${API_URL}${id}?key=${API_KEY}`);
     state.recipe = createRecipeObject(data);
+    console.log(state.recipe);
     if (state.bookmarks.some(bookmark => bookmark.id === id))
       state.recipe.bookmarked = !state.recipe.bookmarked;
     //   state.recipe.bookmarked = true;
@@ -101,31 +102,54 @@ export const deleteBookmark = function (id) {
 
 export const uploadRecipe = async function (newRecipe) {
   try {
-    const ingredients = Object.entries(newRecipe)
-      .filter(entry => entry[0].startsWith('ingredient') && entry[1] !== '')
-      .map(ing => {
-        const ingArr = ing[1].split(',').map(el => el.trim());
+    console.log(newRecipe);
+    // const ingredients = [];
 
-        if (ingArr.length !== 3)
-          throw new Error(
-            'Wrong ingredient format! Please use the correct format 😊'
-          );
-        const [quantity, unit, description] = ingArr;
-        return { quantity: +quantity || null, unit, description };
-      });
-    const recipe = {
-      title: newRecipe.title,
-      source_url: newRecipe.sourceUrl,
-      image_url: newRecipe.image,
-      publisher: newRecipe.publisher,
-      cooking_time: newRecipe.cookingTime,
-      servings: newRecipe.servings,
-      ingredients,
-    };
-    const data = await AJAX(`${API_URL}?key=${API_KEY}`, recipe);
+    // const ing = Object.entries(newRecipe).filter(
+    //   entry => entry[0].startsWith('ingredient') && entry[1] !== ''
+    // );
+    // ing1 = ing.filter(
+    //   entry => entry[0].startsWith('ingredient-1') && entry[1] !== ''
+    // );
 
-    state.recipe = createRecipeObject(data);
-    addBookmark(state.recipe);
+    // const [quantity, unit, description] = ing1
+
+    // const ingArr =
+    // console.log(ing);
+
+    // ing.map(ing => {
+    //   const ingArr = ing.map(ingIn => ingIn[1]);
+    //   const [quantity, unit, description] = ingArr;
+    //   return { quantity: +quantity || null, unit, description };
+    // });
+
+    // console.log(ingredients);
+
+    // const ingredients = Object.entries(newRecipe)
+    //   .filter(entry => entry[0].startsWith('ingredient') && entry[1] !== '')
+    //   .map(ing => {
+    //     const ingArr = ing[1].split(',').map(el => el.trim());
+    //     if (ingArr.length !== 3)
+    //       throw new Error(
+    //         'Wrong ingredient format! Please use the correct format 😊'
+    //       );
+    //     const [quantity, unit, description] = ingArr;
+    //     return { quantity: +quantity || null, unit, description };
+    //   });
+    // console.log(ingredients);
+    // const recipe = {
+    //   title: newRecipe.title,
+    //   source_url: newRecipe.sourceUrl,
+    //   image_url: newRecipe.image,
+    //   publisher: newRecipe.publisher,
+    //   cooking_time: newRecipe.cookingTime,
+    //   servings: newRecipe.servings,
+    //   ingredients,
+    // };
+    // const data = await AJAX(`${API_URL}?key=${API_KEY}`, recipe);
+
+    // state.recipe = createRecipeObject(data);
+    // addBookmark(state.recipe);
   } catch (err) {
     throw err;
   }

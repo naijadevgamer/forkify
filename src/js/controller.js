@@ -6,7 +6,7 @@ import resultsView from './views/resultsView';
 import paginationView from './views/paginationView';
 import bookmarksView from './views/bookmarksView';
 import addRecipeView from './views/addRecipeView';
-import showSearchView from './views/showSearchView';
+import mobileSearchView from './views/mobileSearchView';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
@@ -16,7 +16,7 @@ const controlRecipes = async function () {
     const id = window.location.hash.slice(1);
 
     if (!id) return;
-    showSearchView._hideSearchResult();
+    mobileSearchView._hideSearchResult();
     recipeView.renderSpinner();
 
     // 0) Update results and bookmarks view to mark selected search result

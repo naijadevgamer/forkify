@@ -600,14 +600,14 @@ var _bookmarksView = require("./views/bookmarksView");
 var _bookmarksViewDefault = parcelHelpers.interopDefault(_bookmarksView);
 var _addRecipeView = require("./views/addRecipeView");
 var _addRecipeViewDefault = parcelHelpers.interopDefault(_addRecipeView);
-var _showSearchView = require("./views/showSearchView");
-var _showSearchViewDefault = parcelHelpers.interopDefault(_showSearchView);
+var _mobileSearchView = require("./views/mobileSearchView");
+var _mobileSearchViewDefault = parcelHelpers.interopDefault(_mobileSearchView);
 var _runtime = require("regenerator-runtime/runtime");
 const controlRecipes = async function() {
     try {
         const id = window.location.hash.slice(1);
         if (!id) return;
-        (0, _showSearchViewDefault.default)._hideSearchResult();
+        (0, _mobileSearchViewDefault.default)._hideSearchResult();
         (0, _recipeViewDefault.default).renderSpinner();
         // 0) Update results and bookmarks view to mark selected search result
         (0, _resultsViewDefault.default).update(_model.getSearchResultsPage());
@@ -709,7 +709,7 @@ const init = function() {
 };
 init();
 
-},{"core-js/modules/web.immediate.js":"49tUX","./model":"Y4A21","./config":"k5Hzs","./views/recipeView":"l60JC","./views/searchView":"9OQAM","./views/resultsView":"cSbZE","./views/paginationView":"6z7bi","./views/bookmarksView":"4Lqzq","./views/addRecipeView":"i6DNj","regenerator-runtime/runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./views/showSearchView":"ld7bY"}],"49tUX":[function(require,module,exports) {
+},{"core-js/modules/web.immediate.js":"49tUX","./model":"Y4A21","./config":"k5Hzs","./views/recipeView":"l60JC","./views/searchView":"9OQAM","./views/resultsView":"cSbZE","./views/paginationView":"6z7bi","./views/bookmarksView":"4Lqzq","./views/addRecipeView":"i6DNj","regenerator-runtime/runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./views/mobileSearchView":"47Jec"}],"49tUX":[function(require,module,exports) {
 "use strict";
 // TODO: Remove this module from `core-js@4` since it's split to modules listed below
 require("52e9b3eefbbce1ed");
@@ -1985,6 +1985,7 @@ const loadRecipe = async function(id) {
     try {
         const data = await (0, _helpers.AJAX)(`${(0, _config.API_URL)}${id}?key=${(0, _config.API_KEY)}`);
         state.recipe = createRecipeObject(data);
+        console.log(state.recipe);
         if (state.bookmarks.some((bookmark)=>bookmark.id === id)) state.recipe.bookmarked = !state.recipe.bookmarked;
     //   state.recipe.bookmarked = true;
     // else state.recipe.bookmarked = false;
@@ -2044,28 +2045,47 @@ const deleteBookmark = function(id) {
 };
 const uploadRecipe = async function(newRecipe) {
     try {
-        const ingredients = Object.entries(newRecipe).filter((entry)=>entry[0].startsWith("ingredient") && entry[1] !== "").map((ing)=>{
-            const ingArr = ing[1].split(",").map((el)=>el.trim());
-            if (ingArr.length !== 3) throw new Error("Wrong ingredient format! Please use the correct format \uD83D\uDE0A");
-            const [quantity, unit, description] = ingArr;
-            return {
-                quantity: +quantity || null,
-                unit,
-                description
-            };
-        });
-        const recipe = {
-            title: newRecipe.title,
-            source_url: newRecipe.sourceUrl,
-            image_url: newRecipe.image,
-            publisher: newRecipe.publisher,
-            cooking_time: newRecipe.cookingTime,
-            servings: newRecipe.servings,
-            ingredients
-        };
-        const data = await (0, _helpers.AJAX)(`${(0, _config.API_URL)}?key=${(0, _config.API_KEY)}`, recipe);
-        state.recipe = createRecipeObject(data);
-        addBookmark(state.recipe);
+        console.log(newRecipe);
+    // const ingredients = [];
+    // const ing = Object.entries(newRecipe).filter(
+    //   entry => entry[0].startsWith('ingredient') && entry[1] !== ''
+    // );
+    // ing1 = ing.filter(
+    //   entry => entry[0].startsWith('ingredient-1') && entry[1] !== ''
+    // );
+    // const [quantity, unit, description] = ing1
+    // const ingArr =
+    // console.log(ing);
+    // ing.map(ing => {
+    //   const ingArr = ing.map(ingIn => ingIn[1]);
+    //   const [quantity, unit, description] = ingArr;
+    //   return { quantity: +quantity || null, unit, description };
+    // });
+    // console.log(ingredients);
+    // const ingredients = Object.entries(newRecipe)
+    //   .filter(entry => entry[0].startsWith('ingredient') && entry[1] !== '')
+    //   .map(ing => {
+    //     const ingArr = ing[1].split(',').map(el => el.trim());
+    //     if (ingArr.length !== 3)
+    //       throw new Error(
+    //         'Wrong ingredient format! Please use the correct format 😊'
+    //       );
+    //     const [quantity, unit, description] = ingArr;
+    //     return { quantity: +quantity || null, unit, description };
+    //   });
+    // console.log(ingredients);
+    // const recipe = {
+    //   title: newRecipe.title,
+    //   source_url: newRecipe.sourceUrl,
+    //   image_url: newRecipe.image,
+    //   publisher: newRecipe.publisher,
+    //   cooking_time: newRecipe.cookingTime,
+    //   servings: newRecipe.servings,
+    //   ingredients,
+    // };
+    // const data = await AJAX(`${API_URL}?key=${API_KEY}`, recipe);
+    // state.recipe = createRecipeObject(data);
+    // addBookmark(state.recipe);
     } catch (err) {
         throw err;
     }
@@ -2847,6 +2867,7 @@ class AddRecipeView extends (0, _viewDefault.default) {
                 ...new FormData(this)
             ];
             const data = Object.fromEntries(dataArr);
+            console.log(dataArr);
             handler(data);
         });
     }
@@ -3439,7 +3460,7 @@ try {
     else Function("r", "regeneratorRuntime = r")(runtime);
 }
 
-},{}],"ld7bY":[function(require,module,exports) {
+},{}],"47Jec":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _view = require("./view");
