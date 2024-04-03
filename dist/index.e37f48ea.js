@@ -2899,7 +2899,7 @@ var _view = require("./view");
 var _viewDefault = parcelHelpers.interopDefault(_view);
 class AddRecipeView extends (0, _viewDefault.default) {
     _parentElement = document.querySelector(".upload");
-    _message = "Recipe was successfully uploaded";
+    _message = "Recipe was successfully uploaded, Refresh page to add another recipe";
     _window = document.querySelector(".add-recipe-window");
     _overlay = document.querySelector(".overlay");
     _btnOpen = document.querySelector(".nav__btn--add-recipe");
@@ -2927,7 +2927,6 @@ class AddRecipeView extends (0, _viewDefault.default) {
                 ...new FormData(this)
             ];
             const data = Object.fromEntries(dataArr);
-            console.log(dataArr);
             handler(data);
         });
     }

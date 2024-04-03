@@ -2,7 +2,8 @@ import View from './view';
 
 class AddRecipeView extends View {
   _parentElement = document.querySelector('.upload');
-  _message = 'Recipe was successfully uploaded';
+  _message =
+    'Recipe was successfully uploaded, Refresh page to add another recipe';
 
   _window = document.querySelector('.add-recipe-window');
   _overlay = document.querySelector('.overlay');
@@ -34,7 +35,6 @@ class AddRecipeView extends View {
       e.preventDefault();
       const dataArr = [...new FormData(this)];
       const data = Object.fromEntries(dataArr);
-      console.log(dataArr);
       handler(data);
     });
   }
