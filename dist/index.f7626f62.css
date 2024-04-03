@@ -29,6 +29,39 @@ body {
   line-height: 1.6;
 }
 
+body::-webkit-scrollbar {
+  background: linear-gradient(to bottom right, #fbdb89, #f48982);
+  width: 8px;
+  height: 8px;
+  display: block;
+}
+
+@media only screen and (width <= 78.15em) {
+  body::-webkit-scrollbar {
+    background: #f9f5f3;
+  }
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #f9f5f3;
+  border-radius: 4px;
+}
+
+@media only screen and (width <= 78.15em) {
+  body::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom right, #fbdb89, #f48982);
+  }
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background-color: #b3b3b3;
+  box-shadow: 0 0 2px 1px #0003;
+}
+
+body::-webkit-scrollbar-thumb:active {
+  background-color: #999;
+}
+
 .container {
   background-color: #fff;
   border-radius: 9px;
@@ -892,6 +925,27 @@ body {
   .add-recipe-window {
     padding: 2rem 3rem;
   }
+}
+
+.add-recipe-window::-webkit-scrollbar {
+  background-color: #f9f5f3;
+  width: 8px;
+  height: 8px;
+  display: block;
+}
+
+.add-recipe-window::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom right, #fbdb89, #f48982);
+  border-radius: 4px;
+}
+
+.add-recipe-window::-webkit-scrollbar-thumb:hover {
+  background-color: #b3b3b3;
+  box-shadow: 0 0 2px 1px #0003;
+}
+
+.add-recipe-window::-webkit-scrollbar-thumb:active {
+  background-color: #999;
 }
 
 .add-recipe-window .btn--close-modal {

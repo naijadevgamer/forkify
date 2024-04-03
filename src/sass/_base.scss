@@ -45,6 +45,30 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   min-height: calc(100vh - 2 * 4vw);
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    display: block;
+    background: $gradient;
+    @media only screen and (max-width: $bp-large) {
+      background: none;
+      background-color: $color-grey-light-1;
+    }
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $color-grey-light-1;
+    border-radius: 4px;
+    @media only screen and (max-width: $bp-large) {
+      background: $gradient;
+    }
+    &:hover {
+      background-color: #b3b3b3;
+      box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+    }
+    &:active {
+      background-color: #999999;
+    }
+  }
 }
 
 .container {

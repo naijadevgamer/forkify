@@ -17,6 +17,25 @@
     padding: 2rem 3rem;
   }
 
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    display: block;
+    background-color: $color-grey-light-1;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $color-grey-light-1;
+    border-radius: 4px;
+    background: $gradient;
+    &:hover {
+      background-color: #b3b3b3;
+      box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+    }
+    &:active {
+      background-color: #999999;
+    }
+  }
+
   .btn--close-modal {
     font-family: inherit;
     color: inherit;
