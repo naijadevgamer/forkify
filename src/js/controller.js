@@ -110,6 +110,7 @@ const controlAddRecipe = async function (newRecipe) {
     }, MODAL_CLOSE_SEC * 1000);
   } catch (err) {
     addRecipeView.renderError(err.message);
+    console.error(err);
   }
 };
 // const fractionConverter = function (deci) {

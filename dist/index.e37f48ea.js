@@ -680,6 +680,7 @@ const controlAddRecipe = async function(newRecipe) {
         }, (0, _config.MODAL_CLOSE_SEC) * 1000);
     } catch (err) {
         (0, _addRecipeViewDefault.default).renderError(err.message);
+        console.error(err);
     }
 };
 // const fractionConverter = function (deci) {
@@ -2045,47 +2046,42 @@ const deleteBookmark = function(id) {
 };
 const uploadRecipe = async function(newRecipe) {
     try {
-        console.log(newRecipe);
-    // const ingredients = [];
-    // const ing = Object.entries(newRecipe).filter(
-    //   entry => entry[0].startsWith('ingredient') && entry[1] !== ''
-    // );
-    // ing1 = ing.filter(
-    //   entry => entry[0].startsWith('ingredient-1') && entry[1] !== ''
-    // );
-    // const [quantity, unit, description] = ing1
-    // const ingArr =
-    // console.log(ing);
-    // ing.map(ing => {
-    //   const ingArr = ing.map(ingIn => ingIn[1]);
-    //   const [quantity, unit, description] = ingArr;
-    //   return { quantity: +quantity || null, unit, description };
-    // });
-    // console.log(ingredients);
-    // const ingredients = Object.entries(newRecipe)
-    //   .filter(entry => entry[0].startsWith('ingredient') && entry[1] !== '')
-    //   .map(ing => {
-    //     const ingArr = ing[1].split(',').map(el => el.trim());
-    //     if (ingArr.length !== 3)
-    //       throw new Error(
-    //         'Wrong ingredient format! Please use the correct format 😊'
-    //       );
-    //     const [quantity, unit, description] = ingArr;
-    //     return { quantity: +quantity || null, unit, description };
-    //   });
-    // console.log(ingredients);
-    // const recipe = {
-    //   title: newRecipe.title,
-    //   source_url: newRecipe.sourceUrl,
-    //   image_url: newRecipe.image,
-    //   publisher: newRecipe.publisher,
-    //   cooking_time: newRecipe.cookingTime,
-    //   servings: newRecipe.servings,
-    //   ingredients,
-    // };
-    // const data = await AJAX(`${API_URL}?key=${API_KEY}`, recipe);
-    // state.recipe = createRecipeObject(data);
-    // addBookmark(state.recipe);
+        // Initialize an array to store ingredients
+        const ingredients = [];
+        // Loop through each possible ingredient (1 to 6)
+        for(let i = 1; i <= 6; i++){
+            const quantityInput = newRecipe[`ingredient-${i}-q`];
+            const unitInput = newRecipe[`ingredient-${i}-u`];
+            const descriptionInput = newRecipe[`ingredient-${i}-d`];
+            // Check if all input fields of an igredient are empty, skip if they are
+            if (!quantityInput && !unitInput && !descriptionInput) continue; // Skip this iteration if any input is missing
+            // Check if any of the inputs of an igredient are empty  (assuming they are all required)
+            if (!quantityInput || !unitInput || !descriptionInput) throw new Error(`Missing or invalid input for ingredient ${i}`);
+            // Construct an object representing the current ingredient
+            const ingObject = {
+                quantity: quantityInput,
+                unit: unitInput,
+                description: descriptionInput
+            };
+            // Push the ingredient object into the ingredients array
+            ingredients.push(ingObject);
+        }
+        // Create a recipe object containing all relevant data, including the list of ingredients
+        const recipe = {
+            title: newRecipe.title,
+            source_url: newRecipe.sourceUrl,
+            image_url: newRecipe.image,
+            publisher: newRecipe.publisher,
+            cooking_time: newRecipe.cookingTime,
+            servings: newRecipe.servings,
+            ingredients
+        };
+        // Send the recipe data to the server using an AJAX request
+        const data = await (0, _helpers.AJAX)(`${(0, _config.API_URL)}?key=${(0, _config.API_KEY)}`, recipe);
+        // Update the application state with the newly created recipe
+        state.recipe = createRecipeObject(data);
+        // Add the new recipe to the bookmark list
+        addBookmark(state.recipe);
     } catch (err) {
         throw err;
     }
