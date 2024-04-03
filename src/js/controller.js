@@ -113,6 +113,31 @@ const controlAddRecipe = async function (newRecipe) {
     console.error(err);
   }
 };
+
+const controlDeleteRecipe = async function () {
+  try {
+    const id = window.location.hash.slice(1);
+
+    if (!id) return;
+    recipeView.renderSpinner();
+    // Upload the new recipe data
+    await model.deleteRecipe(id);
+
+    // Display success message
+    recipeView.renderSuccess();
+
+    // Render bookmark view
+    bookmarksView.render(model.state.bookmarks);
+    // resultsView.update(model.getSearchResultsPage());
+    // paginationView.update(model.state.search);
+
+    // Change ID in URL
+    window.history.pushState(null, '', `#`);
+  } catch (err) {
+    recipeView.renderError(err.message);
+    console.error(err);
+  }
+};
 // const fractionConverter = function (deci) {
 //   const splet = deci.split('.');
 //   const [whole, fraction] = splet;
@@ -141,6 +166,7 @@ const init = function () {
   paginationView.addHandlerClick(controlPagination);
   recipeView.addHandlerAddBookmark(controlAddBookmark);
   addRecipeView._addHandlerUpload(controlAddRecipe);
+  recipeView.addHandlerDeleteRecipe(controlDeleteRecipe);
 };
 
 init();

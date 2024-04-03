@@ -1,5 +1,5 @@
 import { API_URL, RES_PER_PAGE, API_KEY } from './config';
-import { AJAX } from './helpers';
+import { AJAX, AJAXDEL } from './helpers';
 
 export const state = {
   recipe: {},
@@ -31,7 +31,6 @@ export const loadRecipe = async function (id) {
   try {
     const data = await AJAX(`${API_URL}${id}?key=${API_KEY}`);
     state.recipe = createRecipeObject(data);
-    console.log(state.recipe);
     if (state.bookmarks.some(bookmark => bookmark.id === id))
       state.recipe.bookmarked = !state.recipe.bookmarked;
     //   state.recipe.bookmarked = true;
@@ -151,6 +150,18 @@ export const uploadRecipe = async function (newRecipe) {
 
     // Add the new recipe to the bookmark list
     addBookmark(state.recipe);
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const deleteRecipe = async function (recipeId) {
+  try {
+    // Send a DELETE request to the server's API endpoint for deleting recipes
+    const response = await AJAXDEL(`${API_URL}/${recipeId}?key=${API_KEY}`);
+
+    // If the deletion was successful, remove the recipe from the bookmark list or any other relevant state
+    deleteBookmark(recipeId);
   } catch (err) {
     throw err;
   }

@@ -683,6 +683,26 @@ const controlAddRecipe = async function(newRecipe) {
         console.error(err);
     }
 };
+const controlDeleteRecipe = async function() {
+    try {
+        const id = window.location.hash.slice(1);
+        if (!id) return;
+        (0, _recipeViewDefault.default).renderSpinner();
+        // Upload the new recipe data
+        await _model.deleteRecipe(id);
+        // Display success message
+        (0, _recipeViewDefault.default).renderSuccess();
+        // Render bookmark view
+        (0, _bookmarksViewDefault.default).render(_model.state.bookmarks);
+        // resultsView.update(model.getSearchResultsPage());
+        // paginationView.update(model.state.search);
+        // Change ID in URL
+        window.history.pushState(null, "", `#`);
+    } catch (err) {
+        (0, _recipeViewDefault.default).renderError(err.message);
+        console.error(err);
+    }
+};
 // const fractionConverter = function (deci) {
 //   const splet = deci.split('.');
 //   const [whole, fraction] = splet;
@@ -707,6 +727,7 @@ const init = function() {
     (0, _paginationViewDefault.default).addHandlerClick(controlPagination);
     (0, _recipeViewDefault.default).addHandlerAddBookmark(controlAddBookmark);
     (0, _addRecipeViewDefault.default)._addHandlerUpload(controlAddRecipe);
+    (0, _recipeViewDefault.default).addHandlerDeleteRecipe(controlDeleteRecipe);
 };
 init();
 
@@ -1954,6 +1975,7 @@ parcelHelpers.export(exports, "updateServings", ()=>updateServings);
 parcelHelpers.export(exports, "addBookmark", ()=>addBookmark);
 parcelHelpers.export(exports, "deleteBookmark", ()=>deleteBookmark);
 parcelHelpers.export(exports, "uploadRecipe", ()=>uploadRecipe);
+parcelHelpers.export(exports, "deleteRecipe", ()=>deleteRecipe);
 var _config = require("./config");
 var _helpers = require("./helpers");
 const state = {
@@ -1986,7 +2008,6 @@ const loadRecipe = async function(id) {
     try {
         const data = await (0, _helpers.AJAX)(`${(0, _config.API_URL)}${id}?key=${(0, _config.API_KEY)}`);
         state.recipe = createRecipeObject(data);
-        console.log(state.recipe);
         if (state.bookmarks.some((bookmark)=>bookmark.id === id)) state.recipe.bookmarked = !state.recipe.bookmarked;
     //   state.recipe.bookmarked = true;
     // else state.recipe.bookmarked = false;
@@ -2086,6 +2107,16 @@ const uploadRecipe = async function(newRecipe) {
         throw err;
     }
 };
+const deleteRecipe = async function(recipeId) {
+    try {
+        // Send a DELETE request to the server's API endpoint for deleting recipes
+        const response = await (0, _helpers.AJAXDEL)(`${(0, _config.API_URL)}/${recipeId}?key=${(0, _config.API_KEY)}`);
+        // If the deletion was successful, remove the recipe from the bookmark list or any other relevant state
+        deleteBookmark(recipeId);
+    } catch (err) {
+        throw err;
+    }
+};
 
 },{"./config":"k5Hzs","./helpers":"hGI1E","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k5Hzs":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -2135,6 +2166,7 @@ exports.export = function(dest, destName, get) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "AJAX", ()=>AJAX);
+parcelHelpers.export(exports, "AJAXDEL", ()=>AJAXDEL);
 var _config = require("./config");
 const timeout = function(s) {
     return new Promise(function(_, reject) {
@@ -2163,6 +2195,25 @@ const AJAX = async function(url, uploadData) {
         throw err;
     }
 };
+const AJAXDEL = async function(url) {
+    try {
+        const res = await Promise.race([
+            fetch(url, {
+                method: "DELETE",
+                headers: {
+                    "content-Type": "application/json"
+                }
+            }),
+            timeout((0, _config.TIMEOUT_SEC))
+        ]);
+    // const data = await res;
+    // console.log(data);
+    // if (!res.ok)
+    //   throw new Error(`${data.message} ${res.status} ${res.statusText}`);
+    } catch (err) {
+        throw err;
+    }
+};
 
 },{"./config":"k5Hzs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l60JC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -2175,6 +2226,7 @@ var _fractional = require("fractional");
 class RecipeView extends (0, _viewDefault.default) {
     _parentElement = document.querySelector(".recipe");
     _errorMessage = "We could not find that recipe. Please try another one!";
+    _message = "Recipe was successfully deleted";
     // MVC: Publisher
     addHandlerRender(handler) {
         [
@@ -2193,6 +2245,13 @@ class RecipeView extends (0, _viewDefault.default) {
     addHandlerAddBookmark(handler) {
         this._parentElement.addEventListener("click", function(e) {
             const btn = e.target.closest(".btn--bookmark");
+            if (!btn) return;
+            handler();
+        });
+    }
+    addHandlerDeleteRecipe(handler) {
+        this._parentElement.addEventListener("click", function(e) {
+            const btn = e.target.closest(".btn--delete");
             if (!btn) return;
             handler();
         });
@@ -2254,6 +2313,11 @@ class RecipeView extends (0, _viewDefault.default) {
               <use href="${0, _iconsSvgDefault.default}#icon-user"></use>
             </svg>
           </div>
+          <button class="btn--round btn--delete ${this._data.key ? "" : "hidden"}">
+            <svg>
+              <use href="${0, _iconsSvgDefault.default}#icon-delete"></use>
+            </svg>
+          </button>
           <button class="btn--round btn--bookmark">
             <svg class="">
               <use

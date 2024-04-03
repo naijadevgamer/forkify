@@ -116,6 +116,10 @@ body {
   height: 1.75rem;
 }
 
+.btn--delete {
+  margin-right: 1.5rem;
+}
+
 .btn--inline {
   color: #f38e82;
   cursor: pointer;

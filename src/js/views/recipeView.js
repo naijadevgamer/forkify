@@ -5,6 +5,7 @@ import { Fraction } from 'fractional';
 class RecipeView extends View {
   _parentElement = document.querySelector('.recipe');
   _errorMessage = 'We could not find that recipe. Please try another one!';
+  _message = 'Recipe was successfully deleted';
 
   // MVC: Publisher
   addHandlerRender(handler) {
@@ -23,6 +24,14 @@ class RecipeView extends View {
   addHandlerAddBookmark(handler) {
     this._parentElement.addEventListener('click', function (e) {
       const btn = e.target.closest('.btn--bookmark');
+      if (!btn) return;
+      handler();
+    });
+  }
+
+  addHandlerDeleteRecipe(handler) {
+    this._parentElement.addEventListener('click', function (e) {
+      const btn = e.target.closest('.btn--delete');
       if (!btn) return;
       handler();
     });
@@ -85,6 +94,13 @@ class RecipeView extends View {
               <use href="${icons}#icon-user"></use>
             </svg>
           </div>
+          <button class="btn--round btn--delete ${
+            this._data.key ? '' : 'hidden'
+          }">
+            <svg>
+              <use href="${icons}#icon-delete"></use>
+            </svg>
+          </button>
           <button class="btn--round btn--bookmark">
             <svg class="">
               <use

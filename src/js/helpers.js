@@ -29,3 +29,23 @@ export const AJAX = async function (url, uploadData = undefined) {
     throw err;
   }
 };
+
+export const AJAXDEL = async function (url) {
+  try {
+    const res = await Promise.race([
+      fetch(url, {
+        method: 'DELETE',
+        headers: {
+          'content-Type': 'application/json',
+        },
+      }),
+      timeout(TIMEOUT_SEC),
+    ]);
+    // const data = await res;
+    // console.log(data);
+    // if (!res.ok)
+    //   throw new Error(`${data.message} ${res.status} ${res.statusText}`);
+  } catch (err) {
+    throw err;
+  }
+};
