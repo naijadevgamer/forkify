@@ -150,7 +150,7 @@ body::-webkit-scrollbar-thumb:active {
 }
 
 .btn--delete {
-  margin-right: 1.5rem;
+  margin-left: 1.5rem;
 }
 
 .btn--inline {
@@ -795,12 +795,22 @@ body::-webkit-scrollbar-thumb:active {
   .recipe__info:not(:last-child) {
     margin-right: 0;
   }
+
+  .recipe__info {
+    margin-top: 2rem;
+  }
 }
 
 .recipe__info-icons-wrapper {
   justify-content: center;
   align-items: center;
   display: flex;
+}
+
+@media only screen and (width <= 61.25em) {
+  .recipe__info-icons-wrapper {
+    margin-top: 2rem;
+  }
 }
 
 .recipe__info-icon {

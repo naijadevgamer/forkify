@@ -629,6 +629,7 @@ const controlSearchResults = async function() {
         // 2) Load search result
         await _model.loadSearchResults(query);
         // 3) Render search result with pagination
+        _model.resizeResultsPerPage();
         (0, _resultsViewDefault.default).render(_model.getSearchResultsPage());
         // 3) Render initial pagination buttons
         (0, _paginationViewDefault.default).render(_model.state.search);
@@ -694,8 +695,9 @@ const controlDeleteRecipe = async function() {
         (0, _recipeViewDefault.default).renderSuccess();
         // Render bookmark view
         (0, _bookmarksViewDefault.default).render(_model.state.bookmarks);
-        // resultsView.update(model.getSearchResultsPage());
-        // paginationView.update(model.state.search);
+        await _model.loadSearchResults();
+        (0, _resultsViewDefault.default).render(_model.getSearchResultsPage());
+        (0, _paginationViewDefault.default).render(_model.state.search);
         // Change ID in URL
         window.history.pushState(null, "", `#`);
     } catch (err) {
@@ -1971,6 +1973,7 @@ parcelHelpers.export(exports, "state", ()=>state);
 parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
 parcelHelpers.export(exports, "loadSearchResults", ()=>loadSearchResults);
 parcelHelpers.export(exports, "getSearchResultsPage", ()=>getSearchResultsPage);
+parcelHelpers.export(exports, "resizeResultsPerPage", ()=>resizeResultsPerPage);
 parcelHelpers.export(exports, "updateServings", ()=>updateServings);
 parcelHelpers.export(exports, "addBookmark", ()=>addBookmark);
 parcelHelpers.export(exports, "deleteBookmark", ()=>deleteBookmark);
@@ -1983,7 +1986,7 @@ const state = {
     search: {
         query: "",
         results: [],
-        resultsPerPage: (0, _config.RES_PER_PAGE),
+        // resultsPerPage: RES_PER_PAGE,
         page: 1
     },
     bookmarks: JSON.parse(localStorage.getItem("bookmarks")) || []
@@ -2040,6 +2043,10 @@ const getSearchResultsPage = function(page = state.search.page) {
     const start = (page - 1) * state.search.resultsPerPage; // 0
     const end = page * state.search.resultsPerPage; // 9
     return state.search.results.slice(start, end);
+};
+const resizeResultsPerPage = function() {
+    if (window.innerWidth > 600) state.search.resultsPerPage = (0, _config.RES_PER_PAGE);
+    else state.search.resultsPerPage = (0, _config.RES_PER_PAGE_MOBILE);
 };
 const updateServings = function(newServings) {
     state.recipe.ingredients.forEach((ing)=>{
@@ -2124,11 +2131,13 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "API_URL", ()=>API_URL);
 parcelHelpers.export(exports, "TIMEOUT_SEC", ()=>TIMEOUT_SEC);
 parcelHelpers.export(exports, "RES_PER_PAGE", ()=>RES_PER_PAGE);
+parcelHelpers.export(exports, "RES_PER_PAGE_MOBILE", ()=>RES_PER_PAGE_MOBILE);
 parcelHelpers.export(exports, "MODAL_CLOSE_SEC", ()=>MODAL_CLOSE_SEC);
 parcelHelpers.export(exports, "API_KEY", ()=>API_KEY);
 const API_URL = "https://forkify-api.herokuapp.com/api/v2/recipes/";
 const TIMEOUT_SEC = 10;
 const RES_PER_PAGE = 10;
+const RES_PER_PAGE_MOBILE = 5;
 const MODAL_CLOSE_SEC = 2.5;
 const API_KEY = "763e47ed-f380-4bd6-b269-09971a80bf7e";
 
@@ -2313,16 +2322,18 @@ class RecipeView extends (0, _viewDefault.default) {
               <use href="${0, _iconsSvgDefault.default}#icon-user"></use>
             </svg>
           </div>
-          <button class="btn--round btn--delete ${this._data.key ? "" : "hidden"}">
-            <svg>
-              <use href="${0, _iconsSvgDefault.default}#icon-delete"></use>
-            </svg>
-          </button>
           <button class="btn--round btn--bookmark">
-            <svg class="">
+            <svg>
               <use
                 href="${0, _iconsSvgDefault.default}#icon-bookmark${this._data.bookmarked ? "-fill" : ""}"
               ></use>
+            </svg>
+          </button>
+          <button
+            class="btn--round btn--delete ${this._data.key ? "" : "hidden"}"
+          >
+            <svg>
+              <use href="${0, _iconsSvgDefault.default}#icon-delete"></use>
             </svg>
           </button>
         </div>
