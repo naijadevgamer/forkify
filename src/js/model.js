@@ -1,4 +1,4 @@
-import { API_URL, RES_PER_PAGE, API_KEY } from './config';
+import { API_URL, RES_PER_PAGE, API_KEY, RES_PER_PAGE_MOBILE } from './config';
 import { AJAX, AJAXDEL } from './helpers';
 
 export const state = {
@@ -6,7 +6,7 @@ export const state = {
   search: {
     query: '',
     results: [],
-    resultsPerPage: RES_PER_PAGE,
+    // resultsPerPage: RES_PER_PAGE,
     page: 1,
   },
   bookmarks: JSON.parse(localStorage.getItem('bookmarks')) || [],
@@ -64,6 +64,14 @@ export const getSearchResultsPage = function (page = state.search.page) {
   const start = (page - 1) * state.search.resultsPerPage; // 0
   const end = page * state.search.resultsPerPage; // 9
   return state.search.results.slice(start, end);
+};
+
+export const resizeResultsPerPage = function () {
+  if (window.innerWidth > 600) {
+    state.search.resultsPerPage = RES_PER_PAGE;
+  } else {
+    state.search.resultsPerPage = RES_PER_PAGE_MOBILE;
+  }
 };
 
 export const updateServings = function (newServings) {

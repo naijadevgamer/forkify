@@ -77,11 +77,8 @@
     align-items: center;
     padding: 7.5rem 8rem 3.5rem 8rem;
     @media only screen and (max-width: $bp-medium) {
-      padding: 10rem 4rem 2rem 4rem;
+      padding: 5rem 4rem 2rem 4rem;
       flex-direction: column;
-    }
-    @media only screen and (max-width: $bp-medium) {
-      padding-top: 5rem;
     }
   }
 
@@ -97,11 +94,17 @@
         margin-right: 0;
       }
     }
+    @media only screen and (max-width: $bp-medium) {
+      margin-top: 2rem;
+    }
   }
   &__info-icons-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
+    @media only screen and (max-width: $bp-medium) {
+      margin-top: 2rem;
+    }
   }
 
   &__info-icon {
@@ -124,14 +127,12 @@
 
   &__user-generated {
     background-color: darken($color-grey-light-2, 2%);
-
     display: flex;
     align-items: center;
     justify-content: center;
     height: 4rem;
     width: 4rem;
     border-radius: 10rem;
-
     margin-left: auto;
     margin-right: 1.75rem;
 

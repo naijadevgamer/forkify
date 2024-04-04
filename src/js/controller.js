@@ -45,6 +45,7 @@ const controlSearchResults = async function () {
     await model.loadSearchResults(query);
 
     // 3) Render search result with pagination
+    model.resizeResultsPerPage();
     resultsView.render(model.getSearchResultsPage());
 
     // 3) Render initial pagination buttons
@@ -128,8 +129,9 @@ const controlDeleteRecipe = async function () {
 
     // Render bookmark view
     bookmarksView.render(model.state.bookmarks);
-    // resultsView.update(model.getSearchResultsPage());
-    // paginationView.update(model.state.search);
+    await model.loadSearchResults();
+    resultsView.render(model.getSearchResultsPage());
+    paginationView.render(model.state.search);
 
     // Change ID in URL
     window.history.pushState(null, '', `#`);
@@ -138,6 +140,7 @@ const controlDeleteRecipe = async function () {
     console.error(err);
   }
 };
+
 // const fractionConverter = function (deci) {
 //   const splet = deci.split('.');
 //   const [whole, fraction] = splet;
