@@ -14,7 +14,6 @@ class AddRecipeView extends View {
   }
 
   _addHandlerShowResults() {
-    if (this._searchField.onBlur) console.log('blur');
     this._searchField.addEventListener(
       'focus',
       this._showSearchResult.bind(this)
