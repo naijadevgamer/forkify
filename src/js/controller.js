@@ -141,26 +141,6 @@ const controlDeleteRecipe = async function () {
   }
 };
 
-// const fractionConverter = function (deci) {
-//   const splet = deci.split('.');
-//   const [whole, fraction] = splet;
-//   const fractNum = +fraction;
-//   const result = fractNum / 10;
-//   let answer;
-
-//   for (let i = 10, j = fractNum; 10 % fractNum === 0; i++) {
-//     if (i % j) {
-//       answer = `${j}/${i}`;
-//     } else {
-//       answer = `${1}/${i / j}`;
-//     }
-//   }
-
-//   console.log(splet);
-// };
-
-// fractionConverter('1.5');
-
 const init = function () {
   bookmarksView.addHandlerRender(controlBookmarks);
   recipeView.addHandlerRender(controlRecipes);
